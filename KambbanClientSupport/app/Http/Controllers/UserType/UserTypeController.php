@@ -1,25 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Company;
+namespace App\Http\Controllers\UserType;
 
-use App\Company;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
-use App\RequestType;
+use App\UserType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class CompanyController extends ApiController
+class UserTypeController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        $companies = Company::all();
-        return $this->showAll($companies);
+        $userTypes = UserType::all();
+        return $this->showAll($userTypes);
     }
 
     /**
@@ -31,60 +26,60 @@ class CompanyController extends ApiController
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-                'name'=>'required|unique:companies',
-            ]);
+            'name'=>'required|unique:users_types',
+        ]);
 
         if($validator->fails()){
             $validator->errors()->getMessages();
         }
 
         $campos = $request->all();
-        $company = Company::create($campos);
-        return $this->showOne($company, 201);
+        $userType = UserType::create($campos);
+        return $this->showOne($userType, 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Company  $company
+     * @param  \App\UserType  $userType
      * @return \Illuminate\Http\Response
      */
-    public function show(Company $company)
+    public function show(UserType $userType)
     {
-        return $this->showOne($company);
+        return $this->showOne($userType);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Company  $company
+     * @param  \App\UserType  $userType
      * @return \Illuminate\Http\Response
      */
-
-    public function update(Request $request, Company $company)
+    public function update(Request $request, UserType $userType)
     {
-        $company->fill($request->only([
+        $userType->fill($request->only([
             'name',
+            'description',
         ]));
 
-        if($company->isClean()){
+        if($userType->isClean()){
             return $this->errorResponse('Debe especificar al menos un valor diferente para actualizar', 422);
         }
 
-        $company->save();
-        return $this->showOne($company);
+        $userType->save();
+        return $this->showOne($userType);
     }
+
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Company  $company
+     * @param  \App\UserType  $userType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Company $company)
+    public function destroy(UserType $userType)
     {
-        $company->delete();
-
-        return $this->showOne($company);
+        $userType->delete();
+        return $this->showOne($userType);
     }
 }

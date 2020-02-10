@@ -11,7 +11,6 @@ class Request extends Model
 
     protected $fillable=[
       'request',
-      'status',
     ];
 
     public function user(){

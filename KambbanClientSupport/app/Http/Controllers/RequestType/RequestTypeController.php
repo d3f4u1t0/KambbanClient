@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Company;
+namespace App\Http\Controllers\RequestType;
 
-use App\Company;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\RequestType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class CompanyController extends ApiController
+class RequestTypeController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +17,8 @@ class CompanyController extends ApiController
      */
     public function index()
     {
-        $companies = Company::all();
-        return $this->showAll($companies);
+        $requestTypes = RequestType::all();
+        return $this->showAll($requestTypes);
     }
 
     /**
@@ -31,60 +30,59 @@ class CompanyController extends ApiController
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-                'name'=>'required|unique:companies',
-            ]);
+            'name' => 'required|unique:requests_types',
+        ]);
 
         if($validator->fails()){
-            $validator->errors()->getMessages();
+            return $validator->errors()->getMessages();
         }
 
-        $campos = $request->all();
-        $company = Company::create($campos);
-        return $this->showOne($company, 201);
+        $requestType = RequestType::create($request->all());
+
+        return $this->showOne($requestType, 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Company  $company
+     * @param  \App\RequestType  $requestType
      * @return \Illuminate\Http\Response
      */
-    public function show(Company $company)
+    public function show(RequestType $requestType)
     {
-        return $this->showOne($company);
+        return $this->showOne($requestType);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Company  $company
+     * @param  \App\RequestType  $requestType
      * @return \Illuminate\Http\Response
      */
-
-    public function update(Request $request, Company $company)
+    public function update(Request $request, RequestType $requestType)
     {
-        $company->fill($request->only([
+        $requestType->fill($request->only([
             'name',
         ]));
 
-        if($company->isClean()){
+        if($requestType->isClean()){
             return $this->errorResponse('Debe especificar al menos un valor diferente para actualizar', 422);
         }
 
-        $company->save();
-        return $this->showOne($company);
+        $requestType->save();
+        return $this->showOne($requestType);
     }
+
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Company  $company
+     * @param  \App\RequestType  $requestType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Company $company)
+    public function destroy(RequestType $requestType)
     {
-        $company->delete();
-
-        return $this->showOne($company);
+        $requestType->delete();
+        return $this->showOne($requestType);
     }
 }

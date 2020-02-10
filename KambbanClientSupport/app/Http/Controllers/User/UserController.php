@@ -91,8 +91,7 @@ class UserController extends ApiController
         if($request->has('name')){
             $user->name = $request->name;
         }
-        /*dump($request);
-        exit();*/
+
         if($request->has('email') && $user->email != $request->email){
             $user->email = $request->email;
         }
@@ -101,7 +100,7 @@ class UserController extends ApiController
             $user->password = bcrypt($request->password);
         }
 
-        if(!$user->isDirty()){
+        if(!$user->isClean()){
             return $this->errorResponse('Se debe especificar al menos un valor diferente para actualizar', 422);
         }
 
