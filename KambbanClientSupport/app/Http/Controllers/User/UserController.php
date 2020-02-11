@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Company;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
+use App\Repository\UserRepository;
 use App\User;
 use App\UserType;
 use Illuminate\Http\Request;
@@ -12,6 +13,23 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends ApiController
 {
+    protected $httpRequestResponse;
+    protected $request;
+    protected $repository;
+    protected $userRepository;
+
+    public function __construct(
+        Request $request,
+        HttpRequestResponse $httpRequestResponse,
+        UserRepository $userRepository
+    )
+    {
+        $this->request = $request;
+        $this->httpRequestResponse = $httpRequestResponse;
+        $this->userRepository = $userRepository;
+    }
+
+
     public function index()
     {
         $usuarios = User::all();
