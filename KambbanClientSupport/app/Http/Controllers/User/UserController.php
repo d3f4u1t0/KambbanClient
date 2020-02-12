@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Company;
+use App\Helpers\HttpRequestResponse;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Repository\UserRepository;
@@ -17,6 +18,7 @@ class UserController extends ApiController
     protected $request;
     protected $repository;
     protected $userRepository;
+    protected $validator;
 
     public function __construct(
         Request $request,
@@ -32,19 +34,33 @@ class UserController extends ApiController
 
     public function index()
     {
-        $usuarios = User::all();
-        return $this->showAll($usuarios);
+        $request = $this->request->query();
+
+        $data = $this->userRepository->all($request);
+
+        return response()->json([
+            'message' => $this->httpRequestResponse->getResponseOk(),
+            "data"    => $data],
+            $this->httpRequestResponse->getResponseOk()
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request, User $user, UserType $userType, Company $company)
+    public function store()
     {
-        $validator = Validator::make($request->all(), $rules = [
+
+        $result = [];
+        $request = $this->request->json()->all();
+        $statuscode = $this->httpRequestResponse->getResponseOk();
+
+
+
+        $validator = Validator::make($request, $rules = [
            'name' => 'required',
             'email' => 'required|email|unique:users',
             'username' => 'required|unique:users',
@@ -54,9 +70,38 @@ class UserController extends ApiController
         ]);
 
         if($validator->fails()){
-            $validator->errors()->getMessages();
+            return response()->json(['message' => $validator->errors()], $this->httpRequestResponse->getResponseBadRequest());
         }
 
+        foreach ($request as $data) {
+            $create = $this->repository->create($data);
+
+            if(isset($create['error'])){
+                $statuscode = $this->httpRequestResponse->getResponseInternalServerError();
+                break;
+            }
+
+            if ($create->id){
+                $data['id'] = $create->id;
+
+                $createUser = $this->userRepository->create($data);
+
+                if ($createUser){
+                    $result[] = $createUser;
+                }
+
+                if(isset($createUser['error'])){
+                    $statuscode = $this->httpRequestResponse->getResponseInternalServerError();
+                }
+            }
+        }
+
+        return response()->json([
+           'status' => $statuscode,
+           'data'   => $result
+        ], $statuscode);
+
+        /*
         $campos = $request->all();
         $campos['password'] = bcrypt($request->password);
         $campos['verified'] = User::USUARIO_NO_VERIFICADO;
@@ -65,7 +110,7 @@ class UserController extends ApiController
         $campos['company_id'] = $company->id = $request->get('company_id');
 
         $usuario = User::create($campos);
-        return $this->showOne($usuario, 201);
+        return $this->showOne($usuario, 201);*/
 
     }
 
@@ -73,11 +118,18 @@ class UserController extends ApiController
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(User $user)
+    public function find()
     {
-        return $this->showOne($user);
+        $request = $this->request->query();
+
+        $data = $this->userRepository->find($request['id']);
+
+        return response()->json([
+            'message' => $this->httpRequestResponse->getResponseOk(),
+            'data' => $data],
+            $this->httpRequestResponse->getResponseOk());
     }
 
 
@@ -86,55 +138,71 @@ class UserController extends ApiController
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, User $user)
+    public function update()
     {
 
-        /**
-         * Preguntar sobre la implementación del update
-         */
+        $response = [];
+        $request = $this->request->json()->all();
+        $statusCode = $this->httpRequestResponse->getResponseOk();
 
+        foreach ($request as $data){
+            $update = $this->userRepository->update($data['values'], $data['id']);
 
-        $validator = Validator::make($request->all(), $rules = [
-            'email' => 'email|unique:users,email,' . $user->id,
-            'password' => 'min:6|confirmed',
-            'username' => 'unique:users,username,' . $user->username,
-        ]);
+            if (isset($update->user->id)){
+                $updateuser = $this->repository->update($data['values'],$update->user->id);
 
-        if($validator->fails()){
-            $validator->errors()->getMessages();
+                if (isset($updateuser['error'])){
+                    $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
+                    break;
+                }
+                $response[] = $this->userRepository->find($data['id']);
+            }else{
+                $response[] = $update;
+            }
         }
 
-        if($request->has('name')){
-            $user->name = $request->name;
-        }
-
-        if($request->has('email') && $user->email != $request->email){
-            $user->email = $request->email;
-        }
-
-        if($request->has('password')){
-            $user->password = bcrypt($request->password);
-        }
-
-        if(!$user->isClean()){
-            return $this->errorResponse('Se debe especificar al menos un valor diferente para actualizar', 422);
-        }
-
-        $user->save();
-        return $this->showOne($user,200);
+        return response()->json([
+            'status' => $statusCode,
+            'data'   => $response
+        ], $statusCode);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(User $user)
+    public function destroy()
     {
-        $user->delete();
-        return $this->showOne($user);
+        $request = $this->request->json()->all();
+        $response = [];
+        $statusCode = $this->httpRequestResponse->getResponseOk();
+
+        foreach ($request as $data){
+            $datadelete = $this->userRepository->find($data['id']);
+            $deleteUser = $this->userRepository->delete($data['id']);
+
+            if(isset($deleteUser['error'])){
+                $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
+                break;
+            }
+
+            $deleteUser = $this->repository->delete($datadelete[0]['id']);
+
+            if(isset($deleteUser['error'])){
+                $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
+                break;
+            }
+
+            $response[] = "Eliminado: {$deleteUser}";
+        }
+
+        return response()->json([
+            'status' => $statusCode,
+            'data'   => $response
+        ], $statusCode);
     }
 }

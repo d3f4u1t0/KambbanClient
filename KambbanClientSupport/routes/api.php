@@ -20,7 +20,7 @@ use Illuminate\Http\Request;
  * Users
  */
 
-Route::resource('users', 'User\UserController', ['only' => ['index', 'show', 'store', 'update','destroy']]);
+Route::resource('users', 'User\UserController', ['only' => ['index', 'find', 'store', 'update','destroy']]);
 
 /**
  * Companies
