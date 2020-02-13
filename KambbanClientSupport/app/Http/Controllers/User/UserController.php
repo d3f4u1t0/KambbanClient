@@ -58,8 +58,8 @@ class UserController extends ApiController
         $request = $this->request->json()->all();
         $statuscode = $this->httpRequestResponse->getResponseOk();
 
-
-
+        /*dump($request);
+        exit;*/
         $validator = Validator::make($request, $rules = [
            'name' => 'required',
             'email' => 'required|email|unique:users',
@@ -69,16 +69,18 @@ class UserController extends ApiController
             'company_id' => 'required'
         ]);
 
+       /* dump($validator);
+        exit;*/
+
         if($validator->fails()){
             return response()->json(['message' => $validator->errors()], $this->httpRequestResponse->getResponseBadRequest());
         }
 
-        foreach ($request as $data) {
-            $create = $this->repository->create($data);
+
+            $create = $this->userRepository->create($request);
 
             if(isset($create['error'])){
                 $statuscode = $this->httpRequestResponse->getResponseInternalServerError();
-                break;
             }
 
             if ($create->id){
@@ -94,23 +96,11 @@ class UserController extends ApiController
                     $statuscode = $this->httpRequestResponse->getResponseInternalServerError();
                 }
             }
-        }
 
         return response()->json([
            'status' => $statuscode,
            'data'   => $result
         ], $statuscode);
-
-        /*
-        $campos = $request->all();
-        $campos['password'] = bcrypt($request->password);
-        $campos['verified'] = User::USUARIO_NO_VERIFICADO;
-        $campos['verification_token'] = User::generarVerificationToken();
-        $campos['user_type_id'] = $userType->id = $request->get('user_type_id');
-        $campos['company_id'] = $company->id = $request->get('company_id');
-
-        $usuario = User::create($campos);
-        return $this->showOne($usuario, 201);*/
 
     }
 

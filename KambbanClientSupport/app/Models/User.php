@@ -46,8 +46,9 @@ class User extends Authenticatable
     ];
 
     public function userType(){
-        return $this->hasMany(UserType::class);
+        return $this->belongsTo(UserType::class);
     }
+
     public function esVerificado(){
         return $this->verified == User::USUARIO_VERIFICADO;
     }

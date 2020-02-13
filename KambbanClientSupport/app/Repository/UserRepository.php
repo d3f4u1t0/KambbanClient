@@ -6,6 +6,7 @@ use App\Interfaces\RepositoriesInterface;
 use App\Models\User;
 use App\Traits\RepositoryTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class UserRepository implements RepositoriesInterface{
@@ -99,7 +100,15 @@ class UserRepository implements RepositoriesInterface{
 
     public function delete($id)
     {
-        // TODO: Implement delete() method.
+        try {
+            $this->model->destroy($id);
+            return $id;
+        } catch (QueryException $ex) {
+            return [
+                'message' => 'Se ha producido un error',
+                'error' => $ex
+            ];
+        }
     }
 }
 

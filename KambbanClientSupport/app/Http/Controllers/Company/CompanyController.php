@@ -35,7 +35,7 @@ class CompanyController extends ApiController
     {
         $request = $this->request->query();
 
-        $data = $this->companyRepository->all($request);
+        $data = $this->repository->all($request);
 
         return response()->json([
             'message' => $this->httpRequestResponse->getResponseOk(),
@@ -55,8 +55,8 @@ class CompanyController extends ApiController
         $request = $this->request->json()->all();
         $statuscode = $this->httpRequestResponse->getResponseOk();
 
-        $validator = Validator::make($request, [
-                'name'=>'required|unique:companies',
+        $validator = Validator::make($request[0], [
+                'name'=>'required',
             ]);
 
         if($validator->fails()){
@@ -72,12 +72,11 @@ class CompanyController extends ApiController
             }
 
             if($create->id){
-                $data['id'] = $create->id;
-                $createCompany = $this->companyRepository->create($data);
+                $result= $create->id;
+  /*              $createCompany = $this->companyRepository->create($data);*/
 
-                if ($createCompany){
-                    $result[] = $createCompany;
-                }
+
+ /*                   $result[] = $createCompany;*/
 
                 if (isset($createCompany['error'])){
                     $statuscode = $this->httpRequestResponse->getResponseInternalServerError();
@@ -100,9 +99,10 @@ class CompanyController extends ApiController
      */
     public function find()
     {
+
         $request = $this->request->query();
 
-        $data = $this->companyRepository->find($request['id']);
+        $data = $this->repository->find($request['id']);
 
         return response()->json([
             'message' => $this->httpRequestResponse->getResponseOk(),
@@ -125,16 +125,18 @@ class CompanyController extends ApiController
        $statusCode = $this->httpRequestResponse->getResponseOk();
 
        foreach ($request as $data){
-           $update = $this->companyRepository->update($data['values'], $data['id']);
+           /*dump($data);
+           exit;*/
+           $update = $this->repository->update($data, $data['id']);
 
            if (isset($update->company->id)){
-               $updatecompany = $this->repository->update($data['values'],$update->company->id);
+               $updatecompany = $this->repository->update($data,$update->company->id);
 
                if (isset($updatecompany['error'])){
                    $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
                    break;
                }
-               $response[] = $this->companyRepository->find($data['id']);
+               $response[] = $this->repository->find($data['id']);
            }else{
                $response[] = $update;
            }
@@ -158,15 +160,10 @@ class CompanyController extends ApiController
         $statusCode = $this->httpRequestResponse->getResponseOk();
 
         foreach ($request as $data){
-            $datadelete = $this->companyRepository->find($data['id']);
-            $deleteCompany = $this->companyRepository->delete($data['id']);
 
-            if(isset($deleteCompany['error'])){
-                $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
-                break;
-            }
 
-            $deleteCompany = $this->repository->delete($datadelete[0]['id']);
+            $datadelete = $this->repository->find($data['id']);
+            $deleteCompany = $this->repository->delete($datadelete['id']);
 
             if(isset($deleteCompany['error'])){
                 $statusCode = $this->httpRequestResponse->getResponseInternalServerError();

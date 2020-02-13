@@ -1,0 +1,103 @@
+<?php
+
+namespace App\Traits;
+
+use PHPUnit\Exception;
+use Illuminate\Support\Facades\Validator;
+
+trait ControllerResourceTrait
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $request = $this->request->query();
+
+        $data = $this->repository->all($request);
+        return response()->json(['message' => $this->httpRequestResponse->getResponseOk(), 'data' => $data], 200);
+    }
+
+    /**
+     * find the row by id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function find()
+    {
+        $request = $this->request->query();
+
+        $data = $this->repository->find($request['id']);
+        return response()->json(['message' => $this->httpRequestResponse->getResponseOk(), 'data' => $data], 200);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+¡     * @return \Illuminate\Http\Response
+     */
+    public function store()
+    {
+        $result = [];
+        $request = $this->request->json()->all();
+
+        $validator = Validator::make($request, [
+            '*.nombre' => ['required'],
+            '*.activo' => ['required']
+        ]);
+
+        if($validator->fails()) {
+            return response()->json(['message' => $validator->errors()], $this->httpRequestResponse->getResponseBadRequest());
+        }
+
+        foreach($request as $data) {
+            $data['created_at'] = date('Y-m-d H:i:s', time());
+            $create = $this->repository->create($data);
+
+            if($create) {
+                $result[] = $create;
+            }
+        }
+
+        return response()->json(['message' => $this->httpRequestResponse->getResponseOk(), 'data' => $result], 200);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update()
+    {
+        $response = [];
+        $request = $this->request->json()->all();
+
+        foreach ($request as $data) {
+            $data['value']['updated_at'] = date('Y-m-d H:i:s', time());
+            $update = $this->repository->update($data['values'], $data['id']);
+            $response[] = $update;
+        }
+
+        return response()->json(['message' => $this->httpRequestResponse->getResponseOk(), 'data' => $response], 200);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy()
+    {
+        $request = $this->request->json()->all();
+        $response = [];
+
+        foreach ($request as $data) {
+            $update = $this->repository->delete($data['id']);
+            $response[] = "Eliminado: {$update}" ;
+        }
+
+        return response()->json(['message' => $this->httpRequestResponse->getResponseOk(), 'data' => $response], 200);
+    }
+}

@@ -20,13 +20,27 @@ use Illuminate\Http\Request;
  * Users
  */
 
-Route::resource('users', 'User\UserController', ['only' => ['index', 'find', 'store', 'update','destroy']]);
+Route::group(['prefix' => 'users'], function (){
+    Route::get('/', 'User\UserController@index')->name('users.index');
+    Route::get('/id', 'User\UserController@find')->name('users.find');
+    Route::post('/update', 'User\UserController@update')->name('users.update');
+    Route::put('/put', 'User\UserController@update')->name('users.put');
+    Route::delete('/delete', 'User\UserController@destroy')->name('users.delete');
+    Route::post('/create', 'User\UserController@store')->name('users.create');
+});
 
 /**
  * Companies
  */
 
-Route::resource('companies', 'Company\CompanyController', ['only' => ['index', 'show','store','update', 'destroy']]);
+Route::group(['prefix' => 'companies'], function (){
+    Route::get('/', 'Company\CompanyController@index')->name('companies.index');
+    Route::get('/id', 'Company\CompanyController@find')->name('companies.find');
+    Route::post('/update', 'Company\CompanyController@update')->name('companies.update');
+    Route::put('/put', 'Company\CompanyController@update')->name('companies.put');
+    Route::delete('/delete', 'Company\CompanyController@destroy')->name('companies.delete');
+    Route::post('/create', 'Company\CompanyController@store')->name('companies.create');
+});
 
 /**
  * Categories
