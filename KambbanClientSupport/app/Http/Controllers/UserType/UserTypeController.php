@@ -2,51 +2,106 @@
 
 namespace App\Http\Controllers\UserType;
 
+use App\Helpers\HttpRequestResponse;
 use App\Http\Controllers\ApiController;
-use App\Http\Controllers\Controller;
-use App\UserType;
+use App\Repository\UserTypeRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class UserTypeController extends ApiController
 {
+    protected $httpRequestResponse;
+    protected $request;
+    protected $userTypeRepository;
+    protected $validator;
+
+    public function __construct(
+        Request $request,
+        HttpRequestResponse $httpRequestResponse,
+        UserTypeRepository $userTypeRepository
+    )
+    {
+        $this->request = $request;
+        $this->httpRequestResponse = $httpRequestResponse;
+        $this->userTypeRepository = $userTypeRepository;
+    }
 
     public function index()
     {
-        $userTypes = UserType::all();
-        return $this->showAll($userTypes);
+        $request = $this->request->query();
+
+        $data = $this->userTypeRepository->all($request);
+
+        return response()->json([
+            'message' => $this->httpRequestResponse->getResponseOk(),
+            "data"    => $data],
+            $this->httpRequestResponse->getResponseOk()
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store()
     {
-        $validator = Validator::make($request->all(), [
+        $result = [];
+        $request = $this->request->json()->all();
+        $statuscode = $this->httpRequestResponse->getResponseOk();
+
+
+        $validator = Validator::make($request, [
             'name'=>'required|unique:users_types',
         ]);
 
         if($validator->fails()){
-            $validator->errors()->getMessages();
+            return response()->json(['message' => $validator->errors()], $this->httpRequestResponse->getResponseBadRequest());
         }
 
-        $campos = $request->all();
-        $userType = UserType::create($campos);
-        return $this->showOne($userType, 201);
+        $create = $this->userTypeRepository->create($request);
+
+
+        if(isset($create['error'])){
+            $statuscode = $this->httpRequestResponse->getResponseInternalServerError();
+        }
+
+        if ($create->id){
+            $data['id'] = $create->id;
+
+            $createUserType = $this->userTypeRepository->create($data);
+
+            if ($createUserType){
+                $result[] = $createUserType;
+            }
+
+            if(isset($createUser['error'])){
+                $statuscode = $this->httpRequestResponse->getResponseInternalServerError();
+            }
+        }
+
+        return response()->json([
+            'status' => $statuscode,
+            'data'   => $result
+        ], $statuscode);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\UserType  $userType
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(UserType $userType)
+    public function find()
     {
-        return $this->showOne($userType);
+        $request = $this->request->query();
+        $data = $this->userTypeRepository->find($request['id']);
+
+        return response()->json([
+           'message' => $this->httpRequestResponse->getResponseOk(),
+           'data' => $data],
+           $this->httpRequestResponse->getResponseOk());
     }
 
     /**
@@ -54,32 +109,78 @@ class UserTypeController extends ApiController
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\UserType  $userType
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, UserType $userType)
+    public function update()
     {
-        $userType->fill($request->only([
-            'name',
-            'description',
-        ]));
+        $response = [];
+        $request = $this->request->json()->all();
+        $statusCode = $this->httpRequestResponse->getResponseOk();
 
-        if($userType->isClean()){
-            return $this->errorResponse('Debe especificar al menos un valor diferente para actualizar', 422);
-        }
 
-        $userType->save();
-        return $this->showOne($userType);
+
+            $update = $this->userTypeRepository->update($request, $request['id']);
+
+            if (isset($update->userType->id)){
+                $updateUserType = $this->userTypeRepository->update($request['values'],$update->userType->id);
+
+                if (isset($updateUserType['error'])){
+                    $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
+                }
+                $response[] = $this->userTypeRepository->find($request['id']);
+            }else{
+                $response[] = $update;
+            }
+
+
+        return response()->json([
+            'status' => $statusCode,
+            'data'   => $response
+        ], $statusCode);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\UserType  $userType
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(UserType $userType)
+    public function destroy()
     {
-        $userType->delete();
-        return $this->showOne($userType);
+        /**
+         * Preguntar por este metodo
+         *
+         *
+         *
+         *
+         *
+         *
+         *
+         */
+        $request = $this->request->json()->all();
+        $response = [];
+        $statusCode = $this->httpRequestResponse->getResponseOk();
+
+
+        $dataDelete = $this->userTypeRepository->find($request['id']);
+        /*dump($dataDelete);
+        exit;*/
+        $deleteUserType = $this->userTypeRepository->delete($request);
+
+        if(isset($deleteUserType['error'])){
+                $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
+
+            }
+            $deleteUserType = $this->userTypeRepository->delete($dataDelete['id']);
+
+
+
+            $response[] = "Eliminado: {$deleteUserType}";
+
+
+        return response()->json([
+            'status' => $statusCode,
+            'data'   => $response
+        ], $statusCode);
     }
 }

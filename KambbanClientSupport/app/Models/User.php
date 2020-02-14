@@ -11,8 +11,6 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    const USUARIO_VERIFICADO = '1';
-    const USUARIO_NO_VERIFICADO = '0';
     /**
      * The attributes that are mass assignable.
      *
@@ -22,7 +20,6 @@ class User extends Authenticatable
         'name',
         'username',
         'email',
-        'password',
         'user_type_id',
         'company_id',
     ];
@@ -33,7 +30,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-         'remember_token',
+         'password',
     ];
 
     /**
@@ -41,19 +38,10 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
 
-    public function userType(){
-        return $this->belongsTo(UserType::class);
+    public function userType()
+    {
+       return $this->belongsTo(UserType::class);
     }
 
-    public function esVerificado(){
-        return $this->verified == User::USUARIO_VERIFICADO;
-    }
-
-    public static function generarVerificationToken(){
-        return Str::random(40);
-    }
 }

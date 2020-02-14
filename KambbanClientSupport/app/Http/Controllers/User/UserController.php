@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Company;
+
 use App\Helpers\HttpRequestResponse;
 use App\Http\Controllers\ApiController;
-use App\Http\Controllers\Controller;
 use App\Repository\UserRepository;
-use App\User;
-use App\UserType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -61,7 +58,7 @@ class UserController extends ApiController
         /*dump($request);
         exit;*/
         $validator = Validator::make($request, $rules = [
-           'name' => 'required',
+            'name' => 'required',
             'email' => 'required|email|unique:users',
             'username' => 'required|unique:users',
             'password' => 'required|min:6|confirmed',
@@ -115,7 +112,8 @@ class UserController extends ApiController
         $request = $this->request->query();
 
         $data = $this->userRepository->find($request['id']);
-
+        /*dump($data);
+        exit;*/
         return response()->json([
             'message' => $this->httpRequestResponse->getResponseOk(),
             'data' => $data],
@@ -141,7 +139,7 @@ class UserController extends ApiController
             $update = $this->userRepository->update($data['values'], $data['id']);
 
             if (isset($update->user->id)){
-                $updateuser = $this->repository->update($data['values'],$update->user->id);
+                $updateuser = $this->userRepository->update($data['values'],$update->user->id);
 
                 if (isset($updateuser['error'])){
                     $statusCode = $this->httpRequestResponse->getResponseInternalServerError();

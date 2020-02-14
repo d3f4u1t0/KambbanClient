@@ -52,13 +52,28 @@ Route::resource('categories', 'Category\CategoryController', ['only' => ['index'
  * UserTypes
  */
 
-Route::resource('userTypes', 'UserType\UserTypeController', ['only' => ['index', 'show', 'store', 'update','destroy']]);
+Route::group(['prefix' => 'usersTypes'], function (){
+    Route::get('/', 'UserType\UserTypeController@index')->name('users_types.index');
+    Route::get('/id', 'UserType\UserTypeController@find')->name('users_types.find');
+    Route::post('/update', 'UserType\UserTypeController@update')->name('users_types.update');
+    Route::put('/put', 'UserType\UserTypeController@update')->name('users_types.put');
+    Route::delete('/delete', 'UserType\UserTypeController@destroy')->name('users_types.delete');
+    Route::post('/create', 'UserType\UserTypeController@store')->name('users_types.create');
+});
+
 
 /**
  * RequestTypes
  */
 
-Route::resource('requestTypes', 'RequestType\RequestTypeController', ['only' => ['index', 'show', 'store', 'update','destroy']]);
+Route::group(['prefix' => 'requestsTypes'], function (){
+    Route::get('/', 'RequestType\RequestTypeController@index')->name('requests_types.index');
+    Route::get('/id', 'RequestType\RequestTypeController@find')->name('requests_types.find');
+    Route::post('/update', 'RequestType\RequestTypeController@update')->name('requests_types.update');
+    Route::put('/put', 'RequestType\RequestTypeController@update')->name('requests_types.put');
+    Route::delete('/delete', 'RequestType\RequestTypeController@destroy')->name('requests_types.delete');
+    Route::post('/create', 'RequestType\RequestTypeController@store')->name('requests_types.create');
+});
 
 /**
  * ExternalCustomer
