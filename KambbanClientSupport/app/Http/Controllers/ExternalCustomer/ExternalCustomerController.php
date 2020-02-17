@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\ExternalCustomer;
 
-use App\Company;
+use App\Http\Controllers\Company;
 use App\ExternalCustomer;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;

@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notifiable;
 class Company extends Model
 {
     use Notifiable;
-
+    protected $table = "companies";
     protected $fillable=[
         'name',
     ];
