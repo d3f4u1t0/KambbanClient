@@ -34,13 +34,14 @@ Route::group(['prefix' => 'users'], function (){
  */
 
 Route::group(['prefix' => 'companies'], function (){
-    Route::get('/', 'Company\CompanyController@index')->name('companies.index');
-    Route::get('/id', 'Company\CompanyController@find')->name('companies.find');
-    Route::post('/update', 'Company\CompanyController@update')->name('companies.update');
-    Route::put('/put', 'Company\CompanyController@update')->name('companies.put');
-    Route::delete('/delete', 'Company\CompanyController@destroy')->name('companies.delete');
-    Route::post('/create', 'Company\CompanyController@store')->name('companies.create');
+    Route::get('/', 'CompanyController@index')->name('companies.index');
+    Route::get('/id', 'CompanyController@find')->name('companies.find');
+    Route::post('/update', 'CompanyController@update')->name('companies.update');
+    Route::put('/put', 'CompanyController@update')->name('companies.put');
+    Route::delete('/delete', 'CompanyController@destroy')->name('companies.delete');
+    Route::post('/create', 'CompanyController@store')->name('companies.create');
 });
+
 
 /**
  * Categories

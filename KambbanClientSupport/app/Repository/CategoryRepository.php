@@ -22,9 +22,9 @@ class CategoryRepository implements RepositoriesInterface{
         'categories.updated_at'
     ];
 
-    public function __construct(Company $company)
+    public function __construct(Category $category)
     {
-        $this->model = $company;
+        $this->model = $category;
     }
 
     public function all($paginate)

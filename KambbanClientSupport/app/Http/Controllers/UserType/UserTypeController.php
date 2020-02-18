@@ -60,20 +60,18 @@ class UserTypeController extends ApiController
             return response()->json(['message' => $validator->errors()], $this->httpRequestResponse->getResponseBadRequest());
         }
 
-        $create = $this->userTypeRepository->create($request);
 
+        $create = $this->userTypeRepository->create($request);
 
         if(isset($create['error'])){
             $statuscode = $this->httpRequestResponse->getResponseInternalServerError();
+
         }
 
         if ($create->id){
-            $data['id'] = $create->id;
 
-            $createUserType = $this->userTypeRepository->create($data);
-
-            if ($createUserType){
-                $result[] = $createUserType;
+            if ($create){
+                $result[] = $create;
             }
 
             if(isset($createUser['error'])){

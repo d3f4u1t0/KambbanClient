@@ -32,9 +32,10 @@ class UserController extends ApiController
     public function index()
     {
         $request = $this->request->query();
-
+/*
+        dump($request);
+        exit;*/
         $data = $this->userRepository->all($request);
-
         return response()->json([
             'message' => $this->httpRequestResponse->getResponseOk(),
             "data"    => $data],

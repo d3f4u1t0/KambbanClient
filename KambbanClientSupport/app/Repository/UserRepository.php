@@ -47,9 +47,9 @@ class UserRepository implements RepositoriesInterface{
                 ->take($limit);
         }
 
-        $query = $query
-            ->with('users_types')
-            ->with('companies');
+        /*$query = $query
+            /*->with('users_types')
+            ->with('companies');*/
 
         $query = $query->get();
         $totalFiltered = $query->count();
