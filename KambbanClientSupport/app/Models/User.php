@@ -25,6 +25,7 @@ class User extends Authenticatable
         'company_id'
     ];
 
+
     /**
      * The attributes that should be hidden for arrays.
      *

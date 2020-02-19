@@ -122,9 +122,6 @@ class CompanyController extends ApiController
        $request = $this->request->json()->all();
        $statusCode = $this->httpRequestResponse->getResponseOk();
 
-
-        dump($request);
-        exit;
         $update = $this->companyRepository->update($request, $request['id']);
            if (isset($update->company->id)){
                $updatecompany = $this->companyRepository->update($request,$update->company->id);

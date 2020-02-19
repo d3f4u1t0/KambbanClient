@@ -133,21 +133,21 @@ class UserController extends ApiController
         $request = $this->request->json()->all();
         $statusCode = $this->httpRequestResponse->getResponseOk();
 
-        foreach ($request as $data){
-            $update = $this->userRepository->update($data['values'], $data['id']);
+
+            $update = $this->userRepository->update($request, $request['id']);
 
             if (isset($update->user->id)){
-                $updateuser = $this->userRepository->update($data['values'],$update->user->id);
+                $updateuser = $this->userRepository->update($request,$update->user->id);
 
                 if (isset($updateuser['error'])){
                     $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
-                    break;
+
                 }
-                $response[] = $this->userRepository->find($data['id']);
+                $response[] = $this->userRepository->find($request['id']);
             }else{
                 $response[] = $update;
             }
-        }
+
 
         return response()->json([
             'status' => $statusCode,

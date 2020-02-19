@@ -145,35 +145,20 @@ class UserTypeController extends ApiController
      */
     public function destroy()
     {
-        /**
-         * Preguntar por este metodo
-         *
-         *
-         *
-         *
-         *
-         *
-         *
-         */
+
         $request = $this->request->json()->all();
         $response = [];
         $statusCode = $this->httpRequestResponse->getResponseOk();
 
+        $datadelete = $this->userTypeRepository->find($request['id']);
 
-        $dataDelete = $this->userTypeRepository->find($request['id']);
-        /*dump($dataDelete);
-        exit;*/
-        $deleteUserType = $this->userTypeRepository->delete($request);
+        $deleteCompany = $this->userTypeRepository->delete($datadelete);
 
-        if(isset($deleteUserType['error'])){
-                $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
+        if(isset($deleteCompany['error'])){
+            $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
+        }
 
-            }
-            $deleteUserType = $this->userTypeRepository->delete($dataDelete['id']);
-
-
-
-            $response[] = "Eliminado: {$deleteUserType}";
+        $response[] = "Eliminado: {$deleteCompany['name']}";
 
 
         return response()->json([
