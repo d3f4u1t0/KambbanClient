@@ -70,13 +70,11 @@ class CompanyController extends ApiController
         if ($create->id){
             $data['id'] = $create->id;
 
-
-
             if ($create){
                 $result[] = $create;
             }
 
-            if(isset($createUser['error'])){
+            if(isset($create['error'])){
                 $statuscode = $this->httpRequestResponse->getResponseInternalServerError();
             }
         }
@@ -116,6 +114,10 @@ class CompanyController extends ApiController
 
     public function update()
     {
+        /**
+         * Arreglar
+         *
+         */
        $response = [];
        $request = $this->request->json()->all();
        $statusCode = $this->httpRequestResponse->getResponseOk();
@@ -155,14 +157,14 @@ class CompanyController extends ApiController
         $statusCode = $this->httpRequestResponse->getResponseOk();
 
         $datadelete = $this->companyRepository->find($request['id']);
-        $deleteCompany = $this->companyRepository->delete($datadelete['id']);
+
+        $deleteCompany = $this->companyRepository->delete($datadelete);
 
             if(isset($deleteCompany['error'])){
                 $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
-                ;
             }
 
-            $response[] = "Eliminado: {$deleteCompany}";
+            $response[] = "Eliminado: {$deleteCompany['name']}";
 
 
         return response()->json([

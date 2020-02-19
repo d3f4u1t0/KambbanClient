@@ -57,12 +57,13 @@ class RequestTypeController extends ApiController
          *
          *
          */
+
         $result = [];
         $request = $this->request->json()->all();
-        $statusCode = $this->httpRequestResponse->getResponseOk();
+        $statuscode = $this->httpRequestResponse->getResponseOk();
 
         $validator = Validator::make($request, [
-            'name' => 'required|unique:requests_types',
+            'name'=>'required|unique:companies',
         ]);
 
         if($validator->fails()){
@@ -73,27 +74,27 @@ class RequestTypeController extends ApiController
 
 
         if(isset($create['error'])){
-            $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
+            $statuscode = $this->httpRequestResponse->getResponseInternalServerError();
         }
 
         if ($create->id){
             $data['id'] = $create->id;
 
-            $createRequestType = $this->requestTypeRepository->create($data);
 
-            if ($createRequestType){
-                $result[] = $createRequestType;
+
+            if ($create){
+                $result[] = $create;
             }
 
             if(isset($createUser['error'])){
-                $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
+                $statuscode = $this->httpRequestResponse->getResponseInternalServerError();
             }
         }
 
         return response()->json([
-            'status' => $statusCode,
+            'status' => $statuscode,
             'data'   => $result
-        ], $statusCode);
+        ], $statuscode);
     }
 
     /**
@@ -162,35 +163,20 @@ class RequestTypeController extends ApiController
      */
     public function destroy()
     {
-        /**
-         * Preguntar por este metodo
-         *
-         *
-         *
-         *
-         *
-         *
-         *
-         */
+
         $request = $this->request->json()->all();
         $response = [];
         $statusCode = $this->httpRequestResponse->getResponseOk();
 
+        $datadelete = $this->requestTypeRepository->find($request['id']);
 
-        $dataDelete = $this->requestTypeRepository->find($request['id']);
-        /*dump($dataDelete);
-        exit;*/
-        $deleteUserType = $this->requestTypeRepository->delete($request);
+        $deleteRequestType = $this->requestTypeRepository->delete($datadelete);
 
-        if(isset($deleteUserType['error'])){
+        if(isset($deleteCompany['error'])){
             $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
-
         }
-        $deleteUserType = $this->requestTypeRepository->delete($dataDelete['id']);
 
-
-
-        $response[] = "Eliminado: {$deleteUserType}";
+        $response[] = "Eliminado: {$deleteRequestType['name']}";
 
 
         return response()->json([
