@@ -2,53 +2,56 @@
 
 namespace App\Repository;
 
-use App\Models\UserType;
+use App\Models\Company;
 use App\Interfaces\RepositoriesInterface;
+use App\Models\ExternalCustomer;
 use App\Traits\RepositoryTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
 
-
-class UserTypeRepository implements RepositoriesInterface
-{
+class ExternalCustomerRepository implements RepositoriesInterface{
 
     use RepositoryTrait;
 
     private $model;
     private $fields = [
-        'users_types.id',
-        'users_types.name',
+        'externals_customers.id',
+        'externals_customers.name',
+        'externals_customers.company_id',
+        'externals_customers.created_at',
+        'externals_customers.updated_at'
     ];
 
-    public function __construct(UserType $userType)
+    public function __construct(ExternalCustomer $externalCustomer)
     {
-        $this->model = $userType;
+        $this->model = $externalCustomer;
     }
 
     public function all($paginate)
     {
-        $limit = $paginate['rowsPerPage'] ?? 0;
-        $start = $paginate['page'] ?? -1;
-        $search = $paginate['search'] ?? null;
+        $limit = $paginate['rowsPerPage']??0;
+        $start = $paginate['page']??-1;
+        $search = $paginate['search']??null;
 
         $totaldata = $this->model->count();
 
         $query = $this->model->select($this->fields)
             ->orderBy('id', 'desc');
 
-        if ($limit && $start != -1) {
+        if($limit && $start!=-1) {
             $query = $query
                 ->skip($start)
                 ->take($limit);
         }
 
-        $query = $query->get();
-        $totalFiltered = $query->count();
+        $query  = $query->get();
+        $totalFiltered  = $query->count();
 
         $json_response = [
-            "recordsTotal" => $totaldata,
-            "recordsFiltered" => $totalFiltered,
-            "data" => $query->toArray()
+            "recordsTotal"      => $totaldata,
+            "recordsFiltered"   => $totalFiltered,
+            "data"              => $query->toArray()
         ];
 
         return $json_response;
@@ -58,7 +61,7 @@ class UserTypeRepository implements RepositoriesInterface
     {
         try {
             return $this->model->select($this->fields)
-                ->where('users_types.id', '=', $id)
+                ->where('externalCustomer.id', '=', $id)
                 ->first();
         } catch (ModelNotFoundException $ex) {
             return [

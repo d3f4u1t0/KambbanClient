@@ -23,7 +23,8 @@ class UserRepository implements RepositoriesInterface{
       'users.user_type_id',
       'users.company_id',
       'users.created_at',
-      'users.updated_at'
+      'users.updated_at',
+      'users.remember_token'
     ];
 
     public function __construct(User $user){

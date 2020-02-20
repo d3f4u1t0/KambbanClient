@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ExternalCustomer extends Model
 {
+    protected $table = 'external_customers';
     protected $fillable = [
         'name',
         'company_id'

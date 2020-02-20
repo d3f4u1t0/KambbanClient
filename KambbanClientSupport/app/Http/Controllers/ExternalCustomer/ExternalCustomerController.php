@@ -2,48 +2,95 @@
 
 namespace App\Http\Controllers\ExternalCustomer;
 
+use App\Helpers\HttpRequestResponse;
 use App\Http\Controllers\Company;
 use App\ExternalCustomer;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
+use App\Repository\ExternalCustomerRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class ExternalCustomerController extends ApiController
 {
+    protected $request;
+    protected $httpRequestResponse;
+    protected $externalCustomerRepository;
+
+    public function __construct(
+        Request $request,
+        HttpRequestResponse $httpRequestResponse,
+        ExternalCustomerRepository $externalCustomerRepository
+    )
+    {
+        $this->request = $request;
+        $this->httpRequestResponse = $httpRequestResponse;
+        $this->externalCustomerRepository = $externalCustomerRepository;
+
+    }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        $externalCustomers = ExternalCustomer::all();
-        return $this->showAll($externalCustomers);
+        $request = $this->request->query();
+        $data = $this->externalCustomerRepository->all($request);
+
+        return response()->json([
+            'message' => $this->httpRequestResponse->getResponseOk(),
+            "data"    => $data],
+            $this->httpRequestResponse->getResponseOk()
+        );
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request, Company $company)
     {
+        $result = [];
+        $request = $this->request->json()->all();
+        $statusCode = $this->httpRequestResponse->getResponseOk();
+
         $validator = Validator::make($request, $rules = [
            'name' => 'required|unique:external_customers',
             'company_id' => 'required',
         ]);
 
         if ($validator->fails()){
-            $validator->errors()->getMessages();
+            return response()->json(['message' => $validator->errors()], $this->httpRequestResponse->getResponseBadRequest());
         }
 
-        $campos = $request->all();
-        $campos['company_id'] = $company->id = $request->get('company_id');
+        $create = $this->externalCustomerRepository->create($request);
 
-        $externalCustomer = ExternalCustomer::create($campos);
-        return $this->showOne($externalCustomer, 201);
+        if(isset($create['error'])){
+            $statuscode = $this->httpRequestResponse->getResponseInternalServerError();
+        }
+
+        if ($create->id){
+            $data['id'] = $create->id;
+
+
+            if ($create){
+                $result[] = $create;
+            }
+
+            if(isset($create['error'])){
+                $statuscode = $this->httpRequestResponse->getResponseInternalServerError();
+            }
+        }
+
+        return response()->json([
+            'status' => $statuscode,
+            'data'   => $result
+        ], $statuscode);
     }
 
     /**

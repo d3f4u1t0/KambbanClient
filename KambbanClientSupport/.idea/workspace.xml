@@ -57,6 +57,7 @@
       <change afterPath="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/app/Repository/CategoryRepository.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/app/Repository/CompanyRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Repository/ExternalCustomerRepository.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/app/Repository/RequestRepository.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/app/Repository/RequestTypeRepository.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/app/Repository/UserRepository.php" afterDir="false" />
@@ -265,6 +266,8 @@
       <updated>1582047764116</updated>
       <workItem from="1582047768248" duration="7986000" />
       <workItem from="1582133055830" duration="6721000" />
+      <workItem from="1582213944161" duration="605000" />
+      <workItem from="1582218882230" duration="4898000" />
     </task>
     <servers />
   </component>
@@ -291,14 +294,14 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2544" y="192" width="662" height="702" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1582050987661" />
-    <state x="290" y="27" width="1401" height="888" maximized="true" key="dock-window-1" timestamp="1582133752764">
+    <state x="240" y="396" width="1424" height="684" maximized="true" key="dock-window-1" timestamp="1582224897719">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="290" y="27" width="1401" height="888" maximized="true" key="dock-window-1/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1582133752764" />
-    <state x="96" y="27" width="1401" height="888" key="dock-window-2" timestamp="1582139076364">
+    <state x="240" y="396" width="1424" height="684" maximized="true" key="dock-window-1/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1582224897719" />
+    <state x="96" y="27" width="1401" height="888" key="dock-window-2" timestamp="1582221728738">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="96" y="27" width="1401" height="888" key="dock-window-2/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1582139076364" />
+    <state x="96" y="27" width="1401" height="888" key="dock-window-2/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1582221728738" />
     <state x="2026" y="18" width="1632" height="909" key="find.popup" timestamp="1582052288339">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
