@@ -40,58 +40,54 @@ class CategoryController extends ApiController
 
         return response()->json([
             'message' => $this->httpRequestResponse->getResponseOk(),
-            "data"    => $data],
+            "data" => $data],
             $this->httpRequestResponse->getResponseOk()
         );
     }
 
 
-    public function store(Request $request)
+    public function store()
     {
         $result = [];
         $request = $this->request->json()->all();
         $statusCode = $this->httpRequestResponse->getResponseOk();
 
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request, [
             'name' => 'required',
             'description' => 'required'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json(['message' => $validator->errors()], $this->httpRequestResponse->getResponseBadRequest());
         }
 
         $create = $this->categoryRepository->create($request);
 
 
-        if(isset($create['error'])){
+        if (isset($create['error'])) {
             $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
         }
 
-        if ($create->id){
-            $data['id'] = $create->id;
+        if ($create->id) {
 
-            $createCategory = $this->categoryRepository->create($data);
-
-            if ($createCategory){
-                $result[] = $createCategory;
+            if ($create) {
+                $result[] = $create;
             }
-
-            if(isset($createUser['error'])){
+            if (isset($createUser['error'])) {
                 $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
             }
         }
 
         return response()->json([
             'status' => $statusCode,
-            'data'   => $result
+            'data' => $result
         ], $statusCode);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Category  $category
+     * @param \App\Category $category
      * @return \Illuminate\Http\JsonResponse
      */
     public function find()
@@ -108,70 +104,62 @@ class CategoryController extends ApiController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Category  $category
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Category $category
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, Category $category)
+    public function update()
     {
         $response = [];
         $request = $this->request->json()->all();
         $statusCode = $this->httpRequestResponse->getResponseOk();
 
-
-
         $update = $this->categoryRepository->update($request, $request['id']);
 
-        if (isset($update->userType->id)){
-            $updateUserType = $this->categoryRepository->update($request['values'],$update->category->id);
+        if (isset($update->userType->id)) {
+            $updateUserType = $this->categoryRepository->update($request['values'], $update->category->id);
 
-            if (isset($updateUserType['error'])){
+            if (isset($updateUserType['error'])) {
                 $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
             }
             $response[] = $this->categoryRepository->find($request['id']);
-        }else{
+        } else {
             $response[] = $update;
         }
 
 
         return response()->json([
             'status' => $statusCode,
-            'data'   => $response
+            'data' => $response
         ], $statusCode);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Category  $category
+     * @param \App\Category $category
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Category $category)
+    public function destroy()
     {
         $request = $this->request->json()->all();
         $response = [];
         $statusCode = $this->httpRequestResponse->getResponseOk();
 
+        $datadelete = $this->categoryRepository->find($request['id']);
 
-        $dataDelete = $this->categoryRepository->find($request['id']);
-        /*dump($dataDelete);
-        exit;*/
-        $deleteUserType = $this->categoryRepository->delete($request);
+        $deleteCategory = $this->categoryRepository->delete($datadelete);
 
-        if(isset($deleteUserType['error'])){
+        if (isset($deleteCompany['error'])) {
             $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
-
         }
-        $deleteUserType = $this->categoryRepository->delete($dataDelete['id']);
 
-
-
-        $response[] = "Eliminado: {$deleteUserType}";
+        $response[] = "Eliminado: {$deleteCategory['name']}";
 
 
         return response()->json([
             'status' => $statusCode,
-            'data'   => $response
+            'data' => $response
         ], $statusCode);
     }
 }

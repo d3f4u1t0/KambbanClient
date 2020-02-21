@@ -47,7 +47,14 @@ Route::group(['prefix' => 'companies'], function (){
  * Categories
  */
 
-Route::resource('categories', 'Category\CategoryController', ['only' => ['index', 'show','store', 'update', 'destroy']]);
+Route::group(['prefix' => 'categories'], function (){
+    Route::get('/', 'Category\CategoryController@index')->name('categories.index');
+    Route::get('/id', 'Category\CategoryController@find')->name('categories.find');
+    Route::post('/update', 'Category\CategoryController@update')->name('categories.update');
+    Route::put('/put', 'Category\CategoryController@update')->name('categories.put');
+    Route::delete('/delete', 'Category\CategoryController@destroy')->name('categories.delete');
+    Route::post('/create', 'Category\CategoryController@store')->name('categories.create');
+});
 
 /**
  * UserTypes
@@ -80,4 +87,11 @@ Route::group(['prefix' => 'requestsTypes'], function (){
  * ExternalCustomer
  */
 
-Route::resource('externalCustomers', 'ExternalCustomer\ExternalCustomerController', ['only' => ['index', 'show', 'store', 'update','destroy']]);
+Route::group(['prefix' => 'externalCustomers'], function (){
+    Route::get('/', 'ExternalCustomer\ExternalCustomerController@index')->name('externalCustomers.index');
+    Route::get('/id', 'ExternalCustomer\ExternalCustomerController@find')->name('externalCustomers.find');
+    Route::post('/update', 'ExternalCustomer\ExternalCustomerController@update')->name('externalCustomers.update');
+    Route::put('/put', 'ExternalCustomer\ExternalCustomerController@update')->name('externalCustomers.put');
+    Route::delete('/delete', 'ExternalCustomer\ExternalCustomerController@destroy')->name('externalCustomers.delete');
+    Route::post('/create', 'ExternalCustomer\ExternalCustomerController@store')->name('externalCustomers.create');
+});

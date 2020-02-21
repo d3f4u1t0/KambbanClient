@@ -53,7 +53,7 @@ class ExternalCustomerController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request, Company $company)
+    public function store()
     {
         $result = [];
         $request = $this->request->json()->all();
@@ -61,7 +61,7 @@ class ExternalCustomerController extends ApiController
 
         $validator = Validator::make($request, $rules = [
            'name' => 'required|unique:external_customers',
-            'company_id' => 'required',
+           'company_id' => 'required',
         ]);
 
         if ($validator->fails()){
@@ -71,37 +71,42 @@ class ExternalCustomerController extends ApiController
         $create = $this->externalCustomerRepository->create($request);
 
         if(isset($create['error'])){
-            $statuscode = $this->httpRequestResponse->getResponseInternalServerError();
+            $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
         }
 
         if ($create->id){
             $data['id'] = $create->id;
-
 
             if ($create){
                 $result[] = $create;
             }
 
             if(isset($create['error'])){
-                $statuscode = $this->httpRequestResponse->getResponseInternalServerError();
+                $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
             }
         }
 
         return response()->json([
-            'status' => $statuscode,
+            'status' => $statusCode,
             'data'   => $result
-        ], $statuscode);
+        ], $statusCode);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\ExternalCustomer  $externalCustomer
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(ExternalCustomer $externalCustomer)
+    public function find()
     {
-        return $this->showOne($externalCustomer);
+        $request = $this->request->query();
+        $data = $this->externalCustomerRepository->find($request['id']);
+
+        return response()->json([
+            'message' => $this->httpRequestResponse->getResponseOk(),
+            'data' => $data],
+            $this->httpRequestResponse->getResponseOk());
     }
 
     /**
@@ -109,31 +114,60 @@ class ExternalCustomerController extends ApiController
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\ExternalCustomer  $externalCustomer
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, ExternalCustomer $externalCustomer)
+    public function update()
     {
-        $externalCustomer->fill($request->only([
-            'name',
-        ]));
+        $response = [];
+        $request = $this->request->json()->all();
+        $statusCode = $this->httpRequestResponse->getResponseOk();
 
-        if($externalCustomer->isClean()){
-            return $this->errorResponse('Debe especificar al menos un valor diferente para actualizar', 422);
+        $update = $this->externalCustomerRepository->update($request, $request['id']);
+
+        if (isset($update->userType->id)){
+            $updateUserType = $this->externalCustomerRepository->update($request['values'],$update->userType->id);
+
+            if (isset($updateUserType['error'])){
+                $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
+            }
+            $response[] = $this->externalCustomerRepository->find($request['id']);
+        }else{
+            $response[] = $update;
         }
 
-        $externalCustomer->save();
-        return $this->showOne($externalCustomer);
+
+        return response()->json([
+            'status' => $statusCode,
+            'data'   => $response
+        ], $statusCode);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\ExternalCustomer  $externalCustomer
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(ExternalCustomer $externalCustomer)
+    public function destroy()
     {
-        $externalCustomer->delete();
-        return $this->showOne();
+        $request = $this->request->json()->all();
+        $response = [];
+        $statusCode = $this->httpRequestResponse->getResponseOk();
+
+        $datadelete = $this->externalCustomerRepository->find($request['id']);
+
+        $deleteExternalCustomer = $this->externalCustomerRepository->delete($datadelete);
+
+        if(isset($deleteCompany['error'])){
+            $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
+        }
+
+        $response[] = "Eliminado: {$deleteExternalCustomer['name']}";
+
+
+        return response()->json([
+            'status' => $statusCode,
+            'data'   => $response
+        ], $statusCode);
     }
 }

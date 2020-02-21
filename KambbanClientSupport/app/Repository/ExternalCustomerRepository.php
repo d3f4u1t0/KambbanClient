@@ -16,11 +16,11 @@ class ExternalCustomerRepository implements RepositoriesInterface{
 
     private $model;
     private $fields = [
-        'externals_customers.id',
-        'externals_customers.name',
-        'externals_customers.company_id',
-        'externals_customers.created_at',
-        'externals_customers.updated_at'
+        'external_customers.id',
+        'external_customers.name',
+        'external_customers.company_id',
+        'external_customers.created_at',
+        'external_customers.updated_at'
     ];
 
     public function __construct(ExternalCustomer $externalCustomer)
@@ -60,14 +60,14 @@ class ExternalCustomerRepository implements RepositoriesInterface{
     public function find($id)
     {
         try {
-            return $this->model->select($this->fields)
-                ->where('externalCustomer.id', '=', $id)
-                ->first();
-        } catch (ModelNotFoundException $ex) {
-            return [
-                'message' => 'No se ha encontrado'
-            ];
-        }
+        return $this->model->select($this->fields)
+            ->where('external_customers.id', '=', $id)
+            ->first();
+    } catch (ModelNotFoundException $ex) {
+        return [
+            'message' => 'No se ha encontrado'
+        ];
+    }
     }
 
     public function update(array $data, $id)

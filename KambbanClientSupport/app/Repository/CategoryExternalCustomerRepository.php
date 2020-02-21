@@ -3,32 +3,25 @@
 namespace App\Repository;
 
 use App\Interfaces\RepositoriesInterface;
+use App\Models\ExternalCustomerCategory;
 use App\Models\User;
 use App\Traits\RepositoryTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
-use Illuminate\Http\Request;
 
-class UserRepository implements RepositoriesInterface{
+class CategoryExternalCustomerRepository implements RepositoriesInterface{
 
     use RepositoryTrait;
 
     private $model;
     private $fields = [
-      'users.id',
-      'users.name',
-      'users.username',
-      'users.email',
-      'users.password',
-      'users.user_type_id',
-      'users.company_id',
-      'users.created_at',
-      'users.updated_at',
-      'users.remember_token'
+        'categories_external_customers.external_customers_id',
+        'categories_external_customers.category_id'
     ];
 
-    public function __construct(User $user){
-        $this->model = $user;
+    public function __construct(ExternalCustomerCategory $externalCustomerCategory)
+    {
+        $this->model = $externalCustomerCategory;
     }
 
     public function all($paginate)
@@ -59,26 +52,24 @@ class UserRepository implements RepositoriesInterface{
 
         return $json_response;
     }
+
     public function find($id)
     {
         try {
             return $this->model->select($this->fields)
-                /**
-                 * Preguntar sobre relaciones whith
-                 *
-                 *
-                 *
-                 *
-                 */
-                ->where('users.id', '=', $id)
-                /*->with('users_types')
-                ->with('companies')*/
-                ->first();
-        } catch (ModelNotFoundException $ex) {
+                        ->where('categories_external_customers.id', '=' ,$id)
+                        ->first();
+        }catch (ModelNotFoundException $ex){
             return [
                 'message' => 'No se ha encontrado'
             ];
         }
+    }
+
+    public function create(array $data)
+    {
+        $result = $this->model->create($data);
+        return $this->find($result->id);
     }
 
     public function update(array $data, $id)
@@ -94,12 +85,6 @@ class UserRepository implements RepositoriesInterface{
         }
     }
 
-    public function create(array $data)
-    {
-        $result = $this->model->create($data);
-        return $this->find($result->id);
-    }
-
     public function delete($id)
     {
         try {
@@ -111,8 +96,6 @@ class UserRepository implements RepositoriesInterface{
                 'error' => $ex
             ];
         }
+
     }
 }
-
-
-

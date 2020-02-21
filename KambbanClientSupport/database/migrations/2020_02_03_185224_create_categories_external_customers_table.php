@@ -14,6 +14,7 @@ class CreateCategoriesExternalCustomersTable extends Migration
     public function up()
     {
         Schema::create('categories_external_customers', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->bigInteger('external_customer_id')->unsigned();
             $table->bigInteger('category_id')->unsigned();
 

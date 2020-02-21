@@ -55,6 +55,7 @@
       <change afterPath="$PROJECT_DIR$/app/Providers/BroadcastServiceProvider.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Repository/CategoryExternalCustomerRepository.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/app/Repository/CategoryRepository.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/app/Repository/CompanyRepository.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/app/Repository/ExternalCustomerRepository.php" afterDir="false" />
@@ -268,6 +269,7 @@
       <workItem from="1582133055830" duration="6721000" />
       <workItem from="1582213944161" duration="605000" />
       <workItem from="1582218882230" duration="4898000" />
+      <workItem from="1582304494000" duration="8853000" />
     </task>
     <servers />
   </component>
@@ -294,10 +296,10 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2544" y="192" width="662" height="702" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1582050987661" />
-    <state x="240" y="396" width="1424" height="684" maximized="true" key="dock-window-1" timestamp="1582224897719">
+    <state x="311" y="105" width="1419" height="879" key="dock-window-1" timestamp="1582320991274">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="240" y="396" width="1424" height="684" maximized="true" key="dock-window-1/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1582224897719" />
+    <state x="311" y="105" width="1419" height="879" key="dock-window-1/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1582320991274" />
     <state x="96" y="27" width="1401" height="888" key="dock-window-2" timestamp="1582221728738">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
