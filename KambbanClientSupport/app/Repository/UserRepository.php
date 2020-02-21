@@ -54,7 +54,7 @@ class UserRepository implements RepositoriesInterface{
         $json_response = [
             "recordsTotal"      => $totaldata,
             "recordsFiltered"   => $totalFiltered,
-            "data"              => $query->toArray()
+            "records"              => $query->toArray()
         ];
 
         return $json_response;
