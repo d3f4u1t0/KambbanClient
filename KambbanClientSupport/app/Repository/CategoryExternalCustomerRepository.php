@@ -15,7 +15,8 @@ class CategoryExternalCustomerRepository implements RepositoriesInterface{
 
     private $model;
     private $fields = [
-        'categories_external_customers.external_customers_id',
+        'categories_external_customers.id',
+        'categories_external_customers.external_customer_id',
         'categories_external_customers.category_id'
     ];
 

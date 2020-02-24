@@ -17,6 +17,7 @@ class CreateCategoriesExternalCustomersTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('external_customer_id')->unsigned();
             $table->bigInteger('category_id')->unsigned();
+            $table->timestamps();
 
 
             $table->foreign('external_customer_id')->references('id')->on('external_customers');
