@@ -40,6 +40,8 @@ class UserRepository implements RepositoriesInterface{
         $totaldata = $this->model->count();
 
         $query = $this->model->select($this->fields)
+                ->with('userType')
+                ->with('company')
             ->orderBy('id', 'desc');
 
         if($limit && $start!=-1){
