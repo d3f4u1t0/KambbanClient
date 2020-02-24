@@ -63,16 +63,10 @@ class UserRepository implements RepositoriesInterface{
     {
         try {
             return $this->model->select($this->fields)
-                /**
-                 * Preguntar sobre relaciones whith
-                 *
-                 *
-                 *
-                 *
-                 */
+
                 ->where('users.id', '=', $id)
-                /*->with('users_types')
-                ->with('companies')*/
+                    ->with('userType')
+                    ->with('company')
                 ->first();
         } catch (ModelNotFoundException $ex) {
             return [

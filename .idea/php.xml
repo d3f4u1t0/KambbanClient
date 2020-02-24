@@ -90,6 +90,22 @@
       <path value="$PROJECT_DIR$/KambbanClientSupport/vendor/fideloper/proxy" />
       <path value="$PROJECT_DIR$/KambbanClientSupport/vendor/jakub-onderka/php-console-highlighter" />
       <path value="$PROJECT_DIR$/KambbanClientSupport/vendor/jakub-onderka/php-console-color" />
+      <path value="$PROJECT_DIR$/KambbanClientSupport/vendor/phpseclib/phpseclib" />
+      <path value="$PROJECT_DIR$/KambbanClientSupport/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/KambbanClientSupport/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/KambbanClientSupport/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/KambbanClientSupport/vendor/laravel/passport" />
+      <path value="$PROJECT_DIR$/KambbanClientSupport/vendor/symfony/psr-http-message-bridge" />
+      <path value="$PROJECT_DIR$/KambbanClientSupport/vendor/lcobucci/jwt" />
+      <path value="$PROJECT_DIR$/KambbanClientSupport/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/KambbanClientSupport/vendor/league/event" />
+      <path value="$PROJECT_DIR$/KambbanClientSupport/vendor/league/oauth2-server" />
+      <path value="$PROJECT_DIR$/KambbanClientSupport/vendor/firebase/php-jwt" />
+      <path value="$PROJECT_DIR$/KambbanClientSupport/vendor/laminas/laminas-diactoros" />
+      <path value="$PROJECT_DIR$/KambbanClientSupport/vendor/laminas/laminas-zendframework-bridge" />
+      <path value="$PROJECT_DIR$/KambbanClientSupport/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/KambbanClientSupport/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/KambbanClientSupport/vendor/defuse/php-encryption" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />

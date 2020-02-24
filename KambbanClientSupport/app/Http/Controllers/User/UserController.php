@@ -7,6 +7,7 @@ use App\Helpers\HttpRequestResponse;
 use App\Http\Controllers\ApiController;
 use App\Repository\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends ApiController
@@ -73,6 +74,7 @@ class UserController extends ApiController
             return response()->json(['message' => $validator->errors()], $this->httpRequestResponse->getResponseBadRequest());
         }
 
+            $request['password'] = Hash::make($request['password']);
 
             $create = $this->userRepository->create($request);
 

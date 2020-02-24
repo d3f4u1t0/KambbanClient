@@ -7,6 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/KambbanClientSupport/app" isTestSource="false" packagePrefix="App\" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/defuse/php-encryption" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/dnoegel/php-xdg-base-dir" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/doctrine/inflector" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/doctrine/instantiator" />
@@ -18,15 +19,25 @@
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/facade/ignition-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/fideloper/proxy" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/filp/whoops" />
+      <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/firebase/php-jwt" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/fzaninotto/faker" />
+      <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/guzzlehttp/guzzle" />
+      <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/guzzlehttp/promises" />
+      <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/guzzlehttp/psr7" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/hamcrest/hamcrest-php" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/jakub-onderka/php-console-color" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/jakub-onderka/php-console-highlighter" />
+      <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/laminas/laminas-diactoros" />
+      <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/laminas/laminas-zendframework-bridge" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/laravel/framework" />
+      <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/laravel/passport" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/laravel/tinker" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/laravel/ui" />
+      <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/lcobucci/jwt" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/league/commonmark" />
+      <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/league/event" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/league/flysystem" />
+      <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/league/oauth2-server" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/mockery/mockery" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/monolog/monolog" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/myclabs/deep-copy" />
@@ -41,6 +52,7 @@
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/phpdocumentor/reflection-docblock" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/phpdocumentor/type-resolver" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/phpoption/phpoption" />
+      <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/phpseclib/phpseclib" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/phpspec/prophecy" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/phpunit/php-code-coverage" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/phpunit/php-file-iterator" />
@@ -49,9 +61,12 @@
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/phpunit/php-token-stream" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/phpunit/phpunit" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/psr/container" />
+      <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/psr/http-factory" />
+      <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/psr/http-message" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/psr/log" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/psr/simple-cache" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/psy/psysh" />
+      <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/ralouphie/getallheaders" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/ramsey/uuid" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/scrivo/highlight.php" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/sebastian/code-unit-reverse-lookup" />
@@ -84,6 +99,7 @@
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/symfony/polyfill-php72" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/symfony/polyfill-php73" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/symfony/process" />
+      <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/symfony/psr-http-message-bridge" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/symfony/routing" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/symfony/service-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/KambbanClientSupport/vendor/symfony/translation" />
