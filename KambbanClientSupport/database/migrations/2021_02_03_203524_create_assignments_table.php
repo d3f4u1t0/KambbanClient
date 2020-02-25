@@ -25,7 +25,6 @@ class CreateAssignmentsTable extends Migration
 
         });
 
-
     }
 
     /**

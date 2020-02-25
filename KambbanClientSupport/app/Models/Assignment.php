@@ -13,4 +13,12 @@ class Assignment extends Model
     public function users(){
         return $this->hasMany(User::class);
     }
+
+    public function workflow(){
+       return $this->belongsTo(Workflow::class);
+    }
+
+    public function setLaraflowState(){
+
+    }
 }

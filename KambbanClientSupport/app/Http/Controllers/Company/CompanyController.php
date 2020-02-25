@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
+use App\Helpers\HttpRequestResponse;
 use App\Repository\CompanyRepository;
 use App\RequestType;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Helpers\HttpRequestResponse;
 
 class CompanyController extends ApiController
 {
@@ -23,28 +25,27 @@ class CompanyController extends ApiController
         CompanyRepository $companyRepository
     )
     {
-     $this->request = $request;
-     $this->httpRequestResponse = $httpRequestResponse;
-     $this->companyRepository = $companyRepository;
+        $this->request = $request;
+        $this->httpRequestResponse = $httpRequestResponse;
+        $this->companyRepository = $companyRepository;
     }
 
     public function index()
     {
         $request = $this->request->query();
-
         $data = $this->companyRepository->all($request);
 
         return response()->json([
             'message' => $this->httpRequestResponse->getResponseOk(),
-            "data"    => $data],
+            "data" => $data],
             $this->httpRequestResponse->getResponseOk());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return JsonResponse
      */
     public function store()
     {
@@ -53,49 +54,42 @@ class CompanyController extends ApiController
         $statuscode = $this->httpRequestResponse->getResponseOk();
 
         $validator = Validator::make($request, [
-                'name'=>'required|unique:companies',
-            ]);
+            'name' => 'required|unique:companies',
+        ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json(['message' => $validator->errors()], $this->httpRequestResponse->getResponseBadRequest());
         }
 
         $create = $this->companyRepository->create($request);
-
-
-        if(isset($create['error'])){
+        if (isset($create['error'])) {
             $statuscode = $this->httpRequestResponse->getResponseInternalServerError();
         }
-
-        if ($create->id){
+        if ($create->id) {
             $data['id'] = $create->id;
-
-            if ($create){
+            if ($create) {
                 $result[] = $create;
             }
-
-            if(isset($create['error'])){
+            if (isset($create['error'])) {
                 $statuscode = $this->httpRequestResponse->getResponseInternalServerError();
             }
         }
 
         return response()->json([
             'status' => $statuscode,
-            'data'   => $result
+            'data' => $result
         ], $statuscode);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Company  $company
-     * @return \Illuminate\Http\JsonResponse
+     * @param Company $company
+     * @return JsonResponse
      */
     public function find()
     {
-
         $request = $this->request->query();
-
         $data = $this->companyRepository->find($request['id']);
 
         return response()->json([
@@ -107,66 +101,57 @@ class CompanyController extends ApiController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Company  $company
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @param Company $company
+     * @return JsonResponse
      */
 
     public function update()
     {
-        /**
-         * Arreglar
-         *
-         */
-       $response = [];
-       $request = $this->request->json()->all();
-       $statusCode = $this->httpRequestResponse->getResponseOk();
-
+        $response = [];
+        $request = $this->request->json()->all();
+        $statusCode = $this->httpRequestResponse->getResponseOk();
         $update = $this->companyRepository->update($request, $request['id']);
-           if (isset($update->company->id)){
-               $updatecompany = $this->companyRepository->update($request,$update->company->id);
 
-               if (isset($updatecompany['error'])){
-                   $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
+        if (isset($update->company->id)) {
+            $updateCompany = $this->companyRepository->update($request, $update->company->id);
+            if (isset($updateCompany['error'])) {
+                $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
+            }
+            $response[] = $this->companyRepository->find($request['id']);
+        } else {
+            $response[] = $update;
+        }
 
-               }
-               $response[] = $this->companyRepository->find($request['id']);
-           }else{
-               $response[] = $update;
-           }
-
-
-       return response()->json([
-           'status' => $statusCode,
-           'data'   => $response
-       ], $statusCode);
+        return response()->json([
+            'status' => $statusCode,
+            'data' => $response
+        ], $statusCode);
     }
+
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Company  $company
-     * @return \Illuminate\Http\JsonResponse
+     * @param Company $company
+     * @return JsonResponse
      */
     public function destroy()
     {
         $request = $this->request->json()->all();
         $response = [];
         $statusCode = $this->httpRequestResponse->getResponseOk();
+        $dataDelete = $this->companyRepository->find($request['id']);
+        $deleteCompany = $this->companyRepository->delete($dataDelete);
 
-        $datadelete = $this->companyRepository->find($request['id']);
+        if (isset($deleteCompany['error'])) {
+            $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
+        }
 
-        $deleteCompany = $this->companyRepository->delete($datadelete);
-
-            if(isset($deleteCompany['error'])){
-                $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
-            }
-
-            $response[] = "Eliminado: {$deleteCompany['name']}";
-
+        $response[] = "Eliminado: {$deleteCompany['name']}";
 
         return response()->json([
             'status' => $statusCode,
-            'data'   => $response
+            'data' => $response
         ], $statusCode);
     }
 }

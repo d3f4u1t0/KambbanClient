@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\ExternalCustomer;
 
-use App\Helpers\HttpRequestResponse;
-use App\Http\Controllers\Company;
 use App\ExternalCustomer;
+use App\Helpers\HttpRequestResponse;
 use App\Http\Controllers\ApiController;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Company;
 use App\Repository\ExternalCustomerRepository;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -32,7 +32,7 @@ class ExternalCustomerController extends ApiController
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index()
     {
@@ -41,17 +41,16 @@ class ExternalCustomerController extends ApiController
 
         return response()->json([
             'message' => $this->httpRequestResponse->getResponseOk(),
-            "data"    => $data],
+            "data" => $data],
             $this->httpRequestResponse->getResponseOk()
         );
-
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return JsonResponse
      */
     public function store()
     {
@@ -60,43 +59,40 @@ class ExternalCustomerController extends ApiController
         $statusCode = $this->httpRequestResponse->getResponseOk();
 
         $validator = Validator::make($request, $rules = [
-           'name' => 'required|unique:external_customers',
-           'company_id' => 'required',
+            'name' => 'required|unique:external_customers',
+            'company_id' => 'required',
         ]);
 
-        if ($validator->fails()){
+        if ($validator->fails()) {
             return response()->json(['message' => $validator->errors()], $this->httpRequestResponse->getResponseBadRequest());
         }
 
         $create = $this->externalCustomerRepository->create($request);
 
-        if(isset($create['error'])){
+        if (isset($create['error'])) {
             $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
         }
-
-        if ($create->id){
+        if ($create->id) {
             $data['id'] = $create->id;
-
-            if ($create){
+            if ($create) {
                 $result[] = $create;
             }
-
-            if(isset($create['error'])){
+            if (isset($create['error'])) {
                 $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
             }
         }
 
         return response()->json([
             'status' => $statusCode,
-            'data'   => $result
+            'data' => $result
         ], $statusCode);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\ExternalCustomer  $externalCustomer
-     * @return \Illuminate\Http\JsonResponse
+     * @param ExternalCustomer $externalCustomer
+     * @return JsonResponse
      */
     public function find()
     {
@@ -112,62 +108,56 @@ class ExternalCustomerController extends ApiController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ExternalCustomer  $externalCustomer
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @param ExternalCustomer $externalCustomer
+     * @return JsonResponse
      */
     public function update()
     {
         $response = [];
         $request = $this->request->json()->all();
         $statusCode = $this->httpRequestResponse->getResponseOk();
-
         $update = $this->externalCustomerRepository->update($request, $request['id']);
 
-        if (isset($update->userType->id)){
-            $updateUserType = $this->externalCustomerRepository->update($request['values'],$update->userType->id);
-
-            if (isset($updateUserType['error'])){
+        if (isset($update->userType->id)) {
+            $updateUserType = $this->externalCustomerRepository->update($request['values'], $update->userType->id);
+            if (isset($updateUserType['error'])) {
                 $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
             }
             $response[] = $this->externalCustomerRepository->find($request['id']);
-        }else{
+        } else {
             $response[] = $update;
         }
 
-
         return response()->json([
             'status' => $statusCode,
-            'data'   => $response
+            'data' => $response
         ], $statusCode);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ExternalCustomer  $externalCustomer
-     * @return \Illuminate\Http\JsonResponse
+     * @param ExternalCustomer $externalCustomer
+     * @return JsonResponse
      */
     public function destroy()
     {
         $request = $this->request->json()->all();
         $response = [];
         $statusCode = $this->httpRequestResponse->getResponseOk();
+        $dataDelete = $this->externalCustomerRepository->find($request['id']);
+        $deleteExternalCustomer = $this->externalCustomerRepository->delete($dataDelete);
 
-        $datadelete = $this->externalCustomerRepository->find($request['id']);
-
-        $deleteExternalCustomer = $this->externalCustomerRepository->delete($datadelete);
-
-        if(isset($deleteCompany['error'])){
+        if (isset($deleteCompany['error'])) {
             $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
         }
 
         $response[] = "Eliminado: {$deleteExternalCustomer['name']}";
 
-
         return response()->json([
             'status' => $statusCode,
-            'data'   => $response
+            'data' => $response
         ], $statusCode);
     }
 }

@@ -37,7 +37,8 @@ class ExternalCustomerRepository implements RepositoriesInterface{
         $totaldata = $this->model->count();
 
         $query = $this->model->select($this->fields)
-            ->orderBy('id', 'desc');
+            ->orderBy('id', 'desc')
+                ->with('company');
 
         if($limit && $start!=-1) {
             $query = $query
@@ -62,6 +63,7 @@ class ExternalCustomerRepository implements RepositoriesInterface{
         try {
         return $this->model->select($this->fields)
             ->where('external_customers.id', '=', $id)
+            ->with('company')
             ->first();
     } catch (ModelNotFoundException $ex) {
         return [

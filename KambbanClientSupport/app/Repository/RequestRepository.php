@@ -41,7 +41,7 @@ class RequestRepository implements RepositoriesInterface
         $totaldata = $this->model->count();
 
         $query = $this->model->select($this->fields)
-            ->osrderBy('id', 'desc');
+            ->orderBy('id', 'desc');
 
         if ($limit && $start != -1) {
             $query = $query

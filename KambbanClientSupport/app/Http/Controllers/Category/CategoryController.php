@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Category;
 
+use App\Category;
 use App\Helpers\HttpRequestResponse;
 use App\Http\Controllers\ApiController;
 use App\Repository\CategoryRepository;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -30,12 +32,11 @@ class CategoryController extends ApiController
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index()
     {
         $request = $this->request->query();
-
         $data = $this->categoryRepository->all($request);
 
         return response()->json([
@@ -63,13 +64,10 @@ class CategoryController extends ApiController
 
         $create = $this->categoryRepository->create($request);
 
-
         if (isset($create['error'])) {
             $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
         }
-
         if ($create->id) {
-
             if ($create) {
                 $result[] = $create;
             }
@@ -87,8 +85,8 @@ class CategoryController extends ApiController
     /**
      * Display the specified resource.
      *
-     * @param \App\Category $category
-     * @return \Illuminate\Http\JsonResponse
+     * @param Category $category
+     * @return JsonResponse
      */
     public function find()
     {
@@ -104,29 +102,26 @@ class CategoryController extends ApiController
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Category $category
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @param Category $category
+     * @return JsonResponse
      */
     public function update()
     {
         $response = [];
         $request = $this->request->json()->all();
         $statusCode = $this->httpRequestResponse->getResponseOk();
-
         $update = $this->categoryRepository->update($request, $request['id']);
 
         if (isset($update->userType->id)) {
-            $updateUserType = $this->categoryRepository->update($request['values'], $update->category->id);
-
-            if (isset($updateUserType['error'])) {
+            $updateCategory = $this->categoryRepository->update($request['values'], $update->category->id);
+            if (isset($updateCategory['error'])) {
                 $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
             }
             $response[] = $this->categoryRepository->find($request['id']);
         } else {
             $response[] = $update;
         }
-
 
         return response()->json([
             'status' => $statusCode,
@@ -137,25 +132,22 @@ class CategoryController extends ApiController
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Category $category
-     * @return \Illuminate\Http\JsonResponse
+     * @param Category $category
+     * @return JsonResponse
      */
     public function destroy()
     {
         $request = $this->request->json()->all();
         $response = [];
         $statusCode = $this->httpRequestResponse->getResponseOk();
+        $dataDelete = $this->categoryRepository->find($request['id']);
+        $deleteCategory = $this->categoryRepository->delete($dataDelete);
 
-        $datadelete = $this->categoryRepository->find($request['id']);
-
-        $deleteCategory = $this->categoryRepository->delete($datadelete);
-
-        if (isset($deleteCompany['error'])) {
+        if (isset($deleteCategory['error'])) {
             $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
         }
 
         $response[] = "Eliminado: {$deleteCategory['name']}";
-
 
         return response()->json([
             'status' => $statusCode,
