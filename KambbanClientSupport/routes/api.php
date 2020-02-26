@@ -106,6 +106,10 @@ Route::group(['prefix' => 'externalCustomers'], function (){
     Route::post('/create', 'ExternalCustomer\ExternalCustomerController@store')->name('externalCustomers.create');
 });
 
+/**
+ * CategoryExternalCustomer
+ */
+
 Route::group(['prefix' => 'categoryExternalCustomer'], function (){
     Route::get('/', 'CategoryExternalCustomer\CategoryExternalCustomerController@index')->name('categoryExternalCustomers.index');
     Route::get('/id', 'CategoryExternalCustomer\CategoryExternalCustomerController@find')->name('categoryExternalCustomers.find');
@@ -114,3 +118,17 @@ Route::group(['prefix' => 'categoryExternalCustomer'], function (){
     Route::delete('/delete', 'CategoryExternalCustomer\CategoryExternalCustomerController@destroy')->name('categoryExternalCustomers.delete');
     Route::post('/create', 'CategoryExternalCustomer\CategoryExternalCustomerController@store')->name('categoryExternalCustomers.create');
 });
+/**
+ * Requests
+ */
+
+Route::group(['prefix' => 'requests'], function (){
+    Route::get('/', 'Request\RequestController@index')->name('requests.index');
+    Route::get('/id', 'Request\RequestController@find')->name('requests.find');
+    Route::post('/update', 'Request\RequestController@update')->name('requests.update');
+    Route::put('/put', 'Request\RequestController@update')->name('requests.put');
+    Route::delete('/delete', 'Request\RequestController@destroy')->name('requests.delete');
+    Route::post('/create', 'Request\RequestController@store')->name('requests.create');
+});
+
+

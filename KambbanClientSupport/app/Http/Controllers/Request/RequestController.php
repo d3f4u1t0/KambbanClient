@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Request;
 
 use App\Helpers\HttpRequestResponse;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\AuthController;
 use App\Repository\RequestRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use PhpParser\Node\Expr\New_;
 
 class RequestController extends ApiController
 {
@@ -45,16 +48,39 @@ class RequestController extends ApiController
         $result = [];
         $request = $this->request->json()->all();
         $statusCode = $this->httpRequestResponse->getResponseOk();
+        $request['user_id'] = auth('api')->user()->id;
 
         $validator = Validator::make($request, $rules = [
-            'request' => 'required',
-            /**
-             * pendiente
-             *
-             *
-             */
 
+            'request' => 'required',
+            'request_type_id' => 'required',
+            'category_id' => 'required',
+            'status' => 'required',
+            'user_id' => 'required'
         ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->errors()], $this->httpRequestResponse->getResponseBadRequest());
+        }
+
+        $create = $this->requestRepository->create($request);
+
+        if(isset($create['error'])){
+            $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
+        }
+        if($create->id){
+            $data['id'] = $create->id;
+            if($create){
+                $result[] = $create;
+            }
+            if (isset($create['error'])) {
+                $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
+            }
+        }
+        return response()->json([
+            'status' => $statusCode,
+            'data' => $result
+        ], $statusCode);
 
     }
 
@@ -100,11 +126,11 @@ class RequestController extends ApiController
         $datadelete = $this->requestRepository->find($request['id']);
         $deleteRequest = $this->requestRepository->delete($datadelete);
 
-        if (isset($deleteUser['error'])) {
+        if (isset($deleteRequest['error'])) {
             $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
         }
 
-        $response[] = "Eliminado: {$deleteRequest['name']}";
+        $response[] = "Eliminado: {$deleteRequest['request']}";
 
         return response()->json([
             'status' => $statusCode,

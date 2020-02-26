@@ -58,7 +58,7 @@ class RequestTypeController extends ApiController
         $statusCode = $this->httpRequestResponse->getResponseOk();
 
         $validator = Validator::make($request, [
-            'name' => 'required|unique:requestTypes',
+            'name' => 'required|unique:requests_types',
         ]);
 
         if ($validator->fails()) {

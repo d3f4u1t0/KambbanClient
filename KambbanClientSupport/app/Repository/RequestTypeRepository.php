@@ -82,6 +82,7 @@ class RequestTypeRepository implements RepositoriesInterface
 
     public function create(array $data)
     {
+
         $result = $this->model->create($data);
         return $this->find($result->id);
     }

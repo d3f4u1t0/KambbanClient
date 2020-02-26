@@ -21,7 +21,7 @@ class RequestRepository implements RepositoriesInterface
         'request.request',
         'request.user_id',
         'request.category_id',
-        'request.request_type',
+        'request.request_type_id',
         'request.status',
         'request.created_at',
         'updated_at'
@@ -36,7 +36,6 @@ class RequestRepository implements RepositoriesInterface
     {
         $limit = $paginate['rowsPerPage'] ?? 0;
         $start = $paginate['page'] ?? -1;
-        $search = $paginate['search'] ?? null;
 
         $totaldata = $this->model->count();
 
@@ -65,7 +64,7 @@ class RequestRepository implements RepositoriesInterface
     {
         try {
             return $this->model->select($this->fields)
-                ->where('requests.id', '=', $id)
+                ->where('request.id', '=', $id)
                 ->first();
         } catch (ModelNotFoundException $ex) {
             return [
