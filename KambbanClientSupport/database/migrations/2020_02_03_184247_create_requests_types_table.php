@@ -13,9 +13,11 @@ class CreateRequestsTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('requests_types', function (Blueprint $table) {
+        Schema::create('request_types', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('description');
+            $table->string('attrs')->nullable();
             $table->timestamps();
         });
     }

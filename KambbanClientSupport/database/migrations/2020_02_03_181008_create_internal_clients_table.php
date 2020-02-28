@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateExternalCustomersTable extends Migration
+class CreateInternalClientsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateExternalCustomersTable extends Migration
      */
     public function up()
     {
-        Schema::create('external_customers', function (Blueprint $table) {
+        Schema::create('internal_clients', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->bigInteger('company_id')->unsigned();
+            $table->string('nit');
+            $table->string('attrs')->nullable();
             $table->timestamps();
-
-            $table->foreign('company_id')->references('id')->on('companies');
         });
     }
 
@@ -30,6 +29,6 @@ class CreateExternalCustomersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('external_customers');
+        Schema::dropIfExists('internal_clients');
     }
 }

@@ -15,8 +15,13 @@ class CreateUsersTypesTable extends Migration
     {
         Schema::create('users_types', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
+            $table->string('user_type');
+            $table->string('status');
+            $table->string('attrs')->nullable();
+            $table->bigIncrements('permission_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('permission_id')->references('id')->on('user_permissions');
         });
     }
 
