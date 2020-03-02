@@ -21,6 +21,10 @@ class Request extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function externalUser(){
+        return $this->belongsTo(ExternalUser::class);
+    }
+
     public function category(){
         return $this->hasMany(Category::class);
     }

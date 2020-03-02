@@ -24,7 +24,7 @@ class CreateExternalUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-            $table->foreign('user_type_id')->references('id')->on('external_user_types');
+            $table->foreign('external_user_type_id')->references('id')->on('external_user_types');
             $table->foreign('external_client_id')->references('id')->on('external_clients');
         });
     }

@@ -18,6 +18,7 @@ class CategoryRepository implements RepositoriesInterface{
         'categories.id',
         'categories.name',
         'categories.description',
+        'categories.attrs',
         'categories.created_at',
         'categories.updated_at'
     ];
@@ -31,7 +32,6 @@ class CategoryRepository implements RepositoriesInterface{
     {
         $limit = $paginate['rowsPerPage']??0;
         $start = $paginate['page']??-1;
-        $search = $paginate['search']??null;
 
         $totaldata = $this->model->count();
 

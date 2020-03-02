@@ -20,12 +20,12 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->bigInteger('user_type_id')->unsigned();
-            $table->bigInteger('company_id')->unsigned();
+            $table->bigInteger('external_client_id')->unsigned();
             $table->rememberToken();
             $table->timestamps();
 
             $table->foreign('user_type_id')->references('id')->on('users_types');
-            $table->foreign('company_id')->references('id')->on('companies');
+            $table->foreign('external_client_id')->references('id')->on('external_clients');
 
         });
     }

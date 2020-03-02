@@ -18,7 +18,7 @@ class CreateExternalUserTypesTable extends Migration
             $table->string('external_user_type');
             $table->string('status');
             $table->string('attrs')->nullable();
-            $table->bigIncrements('permission_id')->unsigned();
+            $table->bigInteger('permission_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('permission_id')->references('id')->on('external_user_permissions');
