@@ -80,8 +80,6 @@ Route::group(['prefix' => 'requestsTypes'], function (){
     Route::post('/create', 'RequestType\RequestTypeController@store')->name('requests_types.create');
 });
 
-
-
 /**
  * Requests
  */
@@ -93,6 +91,32 @@ Route::group(['prefix' => 'requests'], function (){
     Route::put('/put', 'Request\RequestController@update')->name('requests.put');
     Route::delete('/delete', 'Request\RequestController@destroy')->name('requests.delete');
     Route::post('/create', 'Request\RequestController@store')->name('requests.create');
+});
+
+/**
+ * InternalClients
+ */
+
+Route::group(['prefix' => 'internalClients'], function (){
+    Route::get('/', 'InternalClient\InternalClientController@index')->name('internalClients.index');
+    Route::get('/id', 'InternalClient\InternalClientController@find')->name('internalClients.find');
+    Route::post('/update', 'InternalClient\InternalClientController@update')->name('internalClients.update');
+    Route::put('/put', 'InternalClient\InternalClientController@update')->name('internalClients.put');
+    Route::delete('/delete', 'InternalClient\InternalClientController@destroy')->name('internalClients.delete');
+    Route::post('/create', 'InternalClient\InternalClientController@store')->name('internalClients.create');
+});
+
+/**
+ * ExternalClients
+ */
+
+Route::group(['prefix' => 'externalClients'], function (){
+    Route::get('/', 'ExternalClient\ExternalClientController@index')->name('externalClients.index');
+    Route::get('/id', 'ExternalClient\ExternalClientController@find')->name('externalClients.find');
+    Route::post('/update', 'ExternalClient\ExternalClientController@update')->name('externalClients.update');
+    Route::put('/put', 'ExternalClient\ExternalClientController@update')->name('externalClients.put');
+    Route::delete('/delete', 'ExternalClient\ExternalClientController@destroy')->name('externalClients.delete');
+    Route::post('/create', 'ExternalClient\ExternalClientController@store')->name('externalClients.create');
 });
 
 
