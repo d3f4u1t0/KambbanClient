@@ -9,18 +9,18 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 
 
-class UserTypeRepository implements RepositoriesInterface
+class ExternalUserTypeRepository implements RepositoriesInterface
 {
 
     use RepositoryTrait;
 
     private $model;
     private $fields = [
-        'users_types.id',
-        'users_types.user_type',
-        'users_types.status',
-        'users_types.permission_id',
-        'users_types.attrs'
+        'external_user_types.id',
+        'external_user_types.user_type',
+        'external_user_types.status',
+        'external_user_types.permission_id',
+        'external_user_types.attrs'
     ];
 
     public function __construct(UserType $userType)
@@ -38,7 +38,7 @@ class UserTypeRepository implements RepositoriesInterface
 
         $query = $this->model->select($this->fields)
             ->orderBy('id', 'desc')
-            ->with('permissions');
+            ->with('permissionsExternalUser');
 
         if ($limit && $start != -1) {
             $query = $query
@@ -62,8 +62,8 @@ class UserTypeRepository implements RepositoriesInterface
     {
         try {
             return $this->model->select($this->fields)
-                ->where('users_types.id', '=', $id)
-                ->with('permissions')
+                ->where('external_user_types.id', '=', $id)
+                ->with('permissionsExternalUser')
                 ->first();
         } catch (ModelNotFoundException $ex) {
             return [

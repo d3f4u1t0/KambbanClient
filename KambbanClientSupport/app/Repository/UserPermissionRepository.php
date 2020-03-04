@@ -2,43 +2,43 @@
 
 namespace App\Repository;
 
-use App\Models\UserType;
+use App\Models\RequestType;
 use App\Interfaces\RepositoriesInterface;
+use App\Models\UserPermission;
 use App\Traits\RepositoryTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 
 
-class UserTypeRepository implements RepositoriesInterface
+class UserPermissionRepository implements RepositoriesInterface
 {
 
     use RepositoryTrait;
 
     private $model;
     private $fields = [
-        'users_types.id',
-        'users_types.user_type',
-        'users_types.status',
-        'users_types.permission_id',
-        'users_types.attrs'
+        'user_permissions.id',
+        'user_permissions.permission',
+        'user_permissions.description',
+        'user_permissions.attrs',
+        'user_permissions.created_at',
+        'user_permissions.updated_at'
     ];
 
-    public function __construct(UserType $userType)
+    public function __construct(UserPermission $userPermission)
     {
-        $this->model = $userType;
+        $this->model = $userPermission;
     }
 
     public function all($paginate)
     {
         $limit = $paginate['rowsPerPage'] ?? 0;
         $start = $paginate['page'] ?? -1;
-        $search = $paginate['search'] ?? null;
 
         $totaldata = $this->model->count();
 
         $query = $this->model->select($this->fields)
-            ->orderBy('id', 'desc')
-            ->with('permissions');
+            ->orderBy('id', 'desc');
 
         if ($limit && $start != -1) {
             $query = $query
@@ -62,8 +62,7 @@ class UserTypeRepository implements RepositoriesInterface
     {
         try {
             return $this->model->select($this->fields)
-                ->where('users_types.id', '=', $id)
-                ->with('permissions')
+                ->where('user_permissions.id', '=', $id)
                 ->first();
         } catch (ModelNotFoundException $ex) {
             return [
@@ -103,5 +102,4 @@ class UserTypeRepository implements RepositoriesInterface
             ];
         }
     }
-
 }

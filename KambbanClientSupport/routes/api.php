@@ -119,4 +119,16 @@ Route::group(['prefix' => 'externalClients'], function (){
     Route::post('/create', 'ExternalClient\ExternalClientController@store')->name('externalClients.create');
 });
 
+/**
+ * ExternalClients
+ */
+
+Route::group(['prefix' => 'userPermissions'], function (){
+    Route::get('/', 'UserPermission\UserPermissionController@index')->name('userPermissions.index');
+    Route::get('/id', 'UserPermission\UserPermissionController@find')->name('userPermissions.find');
+    Route::post('/update', 'UserPermission\UserPermissionController@update')->name('userPermissions.update');
+    Route::put('/put', 'UserPermission\UserPermissionController@update')->name('userPermissions.put');
+    Route::delete('/delete', 'UserPermission\UserPermissionController@destroy')->name('userPermissions.delete');
+    Route::post('/create', 'UserPermission\UserPermissionController@store')->name('userPermissions.create');
+});
 

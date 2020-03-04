@@ -2,45 +2,49 @@
 
 namespace App\Repository;
 
-use App\Models\UserType;
 use App\Interfaces\RepositoriesInterface;
+use App\Models\User;
 use App\Traits\RepositoryTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
 
-
-class UserTypeRepository implements RepositoriesInterface
-{
+class ExternalUserRepository implements RepositoriesInterface{
 
     use RepositoryTrait;
 
     private $model;
     private $fields = [
-        'users_types.id',
-        'users_types.user_type',
-        'users_types.status',
-        'users_types.permission_id',
-        'users_types.attrs'
+        'external_users.id',
+        'external_users.name',
+        'external_users.username',
+        'external_users.email',
+        'external_users.password',
+        'external_users.external_user_type_id',
+        'external_users.external_client_id',
+        'external_users.created_at',
+        'external_users.updated_at',
+        'external_users.remember_token'
     ];
 
-    public function __construct(UserType $userType)
-    {
-        $this->model = $userType;
+    public function __construct(User $user){
+        $this->model = $user;
     }
 
     public function all($paginate)
     {
-        $limit = $paginate['rowsPerPage'] ?? 0;
-        $start = $paginate['page'] ?? -1;
-        $search = $paginate['search'] ?? null;
+        $limit = $paginate['rowsPerPage']??0;
+        $start = $paginate['page']??-1;
+        $search = $paginate['search']??null;
 
         $totaldata = $this->model->count();
 
         $query = $this->model->select($this->fields)
-            ->orderBy('id', 'desc')
-            ->with('permissions');
+            ->with('externalUserType')
+            ->with('externalClient')
+            ->orderBy('id', 'desc');
 
-        if ($limit && $start != -1) {
+        if($limit && $start!=-1){
             $query = $query
                 ->skip($start)
                 ->take($limit);
@@ -50,20 +54,21 @@ class UserTypeRepository implements RepositoriesInterface
         $totalFiltered = $query->count();
 
         $json_response = [
-            "recordsTotal" => $totaldata,
-            "recordsFiltered" => $totalFiltered,
-            "records" => $query->toArray()
+            "recordsTotal"      => $totaldata,
+            "recordsFiltered"   => $totalFiltered,
+            "records"              => $query->toArray()
         ];
 
         return $json_response;
     }
-
     public function find($id)
     {
         try {
             return $this->model->select($this->fields)
-                ->where('users_types.id', '=', $id)
-                ->with('permissions')
+
+                ->where('users.id', '=', $id)
+                ->with('externalUserType')
+                ->with('externalClient')
                 ->first();
         } catch (ModelNotFoundException $ex) {
             return [
@@ -103,5 +108,7 @@ class UserTypeRepository implements RepositoriesInterface
             ];
         }
     }
-
 }
+
+
+

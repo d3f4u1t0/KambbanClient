@@ -46,8 +46,9 @@ class ExternalClientController extends ApiController
         $statusCode = $this->httpRequestResponse->getResponseOk();
 
         $validator = Validator::make($request, $rules = [
-            'name' => 'required',
+            'name' => 'required|unique:external_clients',
             'nit' => 'required|unique:external_clients',
+            'internal_client_id' => 'required',
             'attrs' => 'nullable'
         ]);
 

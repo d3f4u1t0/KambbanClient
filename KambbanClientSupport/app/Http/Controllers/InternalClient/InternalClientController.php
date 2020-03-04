@@ -4,7 +4,6 @@ namespace App\Http\Controllers\InternalClient;
 
 use App\Helpers\HttpRequestResponse;
 use App\Http\Controllers\ApiController;
-use App\Http\Controllers\Controller;
 use App\Repository\InternalClientRepository;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
@@ -29,26 +28,28 @@ class InternalClientController extends ApiController
         $this->internalClientRepository = $internalClientRepository;
     }
 
-    public function index(){
+    public function index()
+    {
         $request = $this->request->query();
         $data = $this->internalClientRepository->all($request);
 
         return response()->json([
-            'message' =>$this->httpRequestResponse->getResponseOk(),
-            "data"    =>$data],
+            'message' => $this->httpRequestResponse->getResponseOk(),
+            "data" => $data],
             $this->httpRequestResponse->getResponseOk()
         );
     }
 
-    public function store(){
+    public function store()
+    {
         $result = [];
         $request = $this->request->json()->all();
         $statusCode = $this->httpRequestResponse->getResponseOk();
 
         $validator = Validator::make($request, $rules = [
-           'name' => 'required',
-           'nit'  => 'required|unique:internal_clients',
-           'attrs'=> 'nullable'
+            'name' => 'required',
+            'nit' => 'required|unique:internal_clients',
+            'attrs' => 'nullable'
         ]);
 
         if ($validator->fails()) {
@@ -76,31 +77,32 @@ class InternalClientController extends ApiController
         ], $statusCode);
     }
 
-    public function find(){
-
+    public function find()
+    {
         try {
             $request = $this->request->json()->all();
             $data = $this->internalClientRepository->find($request['id']);
             return response()->json([
                 'message' => $this->httpRequestResponse->getResponseOk(),
-                "data"    => $data,
+                "data" => $data,
                 $this->httpRequestResponse->getResponseOk()
             ]);
-        }catch (RequestException $exception){
-            $this->httpRequestResponse->getResponseBadRequest();
+        } catch (RequestException $exception) {
+            return $this->httpRequestResponse->getResponseBadRequest();
         }
     }
 
-    public function update(){
+    public function update()
+    {
         $response = [];
         $request = $this->request->json()->all();
         $statusCode = $this->httpRequestResponse->getResponseOk();
         $update = $this->internalClientRepository->update($request, $request['id']);
 
         if (isset($update->internalClient->id)) {
-            $updateUserType = $this->internalClientRepository->update($request['values'], $update->internalClient->id);
+            $updateInternalClient = $this->internalClientRepository->update($request['values'], $update->internalClient->id);
 
-            if (isset($updateUserType['error'])) {
+            if (isset($updateInternalClient['error'])) {
                 $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
             }
             $response[] = $this->internalClientRepository->find($request['id']);
@@ -114,7 +116,8 @@ class InternalClientController extends ApiController
         ], $statusCode);
     }
 
-    public function destroy(){
+    public function destroy()
+    {
         $request = $this->request->json()->all();
         $response = [];
         $statusCode = $this->httpRequestResponse->getResponseOk();

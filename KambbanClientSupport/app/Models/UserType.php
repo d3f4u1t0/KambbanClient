@@ -10,6 +10,7 @@ class UserType extends Model
     protected $fillable = [
       'user_type',
       'status',
+      'permission_id',
       'attrs'
     ];
 
