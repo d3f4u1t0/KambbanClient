@@ -36,6 +36,7 @@ class ExternalClientRepository implements RepositoriesInterface
         $totaldata = $this->model->count();
 
         $query = $this->model->select($this->fields)
+            ->with('internalClient')
             ->orderBy('id', 'desc');
 
         if ($limit && $start != -1) {
@@ -61,7 +62,9 @@ class ExternalClientRepository implements RepositoriesInterface
         try {
             $result = $this->model->findOrFail($id);
             $result->update($data);
-            return $this->find($id);
+            return $this->find($id)
+                ->with('internalClient');
+
         } catch (ModelNotFoundException $ex) {
             return [
                 'message' => 'No se ha encontrado'
@@ -74,6 +77,7 @@ class ExternalClientRepository implements RepositoriesInterface
         try {
             return $this->model->select($this->fields)
                 ->where('external_clients.id', '=', $id)
+                ->with('internalClient')
                 ->first();
         } catch (ModelNotFoundException $ex) {
             return [
@@ -85,7 +89,9 @@ class ExternalClientRepository implements RepositoriesInterface
     public function create(array $data)
     {
         $result = $this->model->create($data);
-        return $this->find($result->id);
+        return $this->find($result->id)
+            ->with('internalClient');
+
     }
 
     public function delete($id)

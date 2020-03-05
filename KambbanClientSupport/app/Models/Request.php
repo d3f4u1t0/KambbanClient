@@ -10,8 +10,9 @@ class Request extends Model
     protected $dates = ['date_create'];
     protected $table = 'request';
     protected $fillable=[
-      'request',
+      'description',
       'user_id',
+      'external_user_id',
       'request_type_id',
       'category_id',
       'status'

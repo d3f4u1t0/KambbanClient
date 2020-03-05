@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Models\RequestType;
 use App\Interfaces\RepositoriesInterface;
 use App\Models\UserPermission;
 use App\Traits\RepositoryTrait;

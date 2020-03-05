@@ -1,99 +1,91 @@
 <?php
 
-namespace App\Http\Controllers\Request;
+namespace App\Http\Controllers\ExternalUserPermission;
 
 use App\Helpers\HttpRequestResponse;
 use App\Http\Controllers\ApiController;
-use App\Http\Controllers\AuthController;
-use App\Repository\RequestRepository;
+use App\Repository\ExternalUserPermissionsRepository;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use PhpParser\Node\Expr\New_;
 
-class RequestController extends ApiController
+class ExternalUserPermissionsController extends ApiController
 {
-
     protected $httpRequestResponse;
     protected $request;
-    protected $requestRepository;
+    protected $userPermissionRepository;
     protected $validator;
 
     public function __construct(
         HttpRequestResponse $httpRequestResponse,
         Request $request,
-        RequestRepository $requestRepository
+        ExternalUserPermissionsRepository $userPermissionRepository
     )
     {
         $this->request = $request;
         $this->httpRequestResponse = $httpRequestResponse;
-        $this->requestRepository = $requestRepository;
+        $this->userPermissionRepository = $userPermissionRepository;
     }
 
-    public function index()
-    {
+    public function index(){
         $request = $this->request->query();
-        $data = $this->requestRepository->all($request);
+        $data = $this->userPermissionRepository->all($request);
 
         return response()->json([
-            'messagge' => $this->httpRequestResponse->getResponseOk(),
+            'message' => $this->httpRequestResponse->getResponseOk(),
             "data" => $data],
             $this->httpRequestResponse->getResponseOk()
         );
     }
 
-    public function store()
-    {
+    public function find(){
+        try {
+            $request = $this->request->json()->all();
+            $data = $this->userPermissionRepository->find($request['id']);
+            return response()->json([
+                'message' => $this->httpRequestResponse->getResponseOk(),
+                "data" => $data,
+                $this->httpRequestResponse->getResponseOk()
+            ]);
+        } catch (RequestException $exception) {
+            return $this->httpRequestResponse->getResponseBadRequest();
+        }
+    }
 
+    public function store(){
         $result = [];
         $request = $this->request->json()->all();
         $statusCode = $this->httpRequestResponse->getResponseOk();
-        $request['user_id'] = auth('api')->user()->id;
 
         $validator = Validator::make($request, $rules = [
-
-            'request' => 'required',
-            'request_type_id' => 'required',
-            'category_id' => 'required',
-            'status' => 'required',
-            'user_id' => 'nullable',
-            'external_user_id' => 'required'
+            'permission' => 'required|unique:external_user_permissions',
+            'description' => 'required',
+            'attrs' => 'nullable'
         ]);
 
         if ($validator->fails()) {
             return response()->json(['message' => $validator->errors()], $this->httpRequestResponse->getResponseBadRequest());
         }
 
-        $create = $this->requestRepository->create($request);
+        $create = $this->userPermissionRepository->create($request);
 
-        if(isset($create['error'])){
+        if (isset($create['error'])) {
             $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
         }
-        if($create->id){
+        if ($create->id) {
             $data['id'] = $create->id;
-            if($create){
+            if ($create) {
                 $result[] = $create;
             }
             if (isset($create['error'])) {
                 $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
             }
         }
+
         return response()->json([
             'status' => $statusCode,
             'data' => $result
         ], $statusCode);
-
-    }
-
-    public function find()
-    {
-        $request = $this->request->query();
-        $data = $this->requestRepository->find($request['id']);
-
-        return response()->json([
-            'message' => $this->httpRequestResponse->getResponseOk(),
-            'data' => $data],
-            $this->httpRequestResponse->getResponseOk());
     }
 
     public function update()
@@ -101,14 +93,15 @@ class RequestController extends ApiController
         $response = [];
         $request = $this->request->json()->all();
         $statusCode = $this->httpRequestResponse->getResponseOk();
-        $update = $this->requestRepository->update($request, $request['id']);
+        $update = $this->userPermissionRepository->update($request, $request['id']);
 
-        if (isset($update->user->id)) {
-            $updateuser = $this->requestRepository->update($request, $update->requestRepository->id);
-            if (isset($updateuser['error'])) {
+        if (isset($update->userPermission->id)) {
+            $updateUserPermission = $this->userPermissionRepository->update($request['values'], $update->userPermission->id);
+
+            if (isset($updateUserPermission['error'])) {
                 $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
             }
-            $response[] = $this->requestRepository->find($request['id']);
+            $response[] = $this->userPermissionRepository->find($request['id']);
         } else {
             $response[] = $update;
         }
@@ -124,14 +117,16 @@ class RequestController extends ApiController
         $request = $this->request->json()->all();
         $response = [];
         $statusCode = $this->httpRequestResponse->getResponseOk();
-        $datadelete = $this->requestRepository->find($request['id']);
-        $deleteRequest = $this->requestRepository->delete($datadelete);
 
-        if (isset($deleteRequest['error'])) {
+        $dataDelete = $this->userPermissionRepository->find($request['id']);
+
+        $deleteUserPermission = $this->userPermissionRepository->delete($dataDelete);
+
+        if (isset($deleteUserPermission['error'])) {
             $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
         }
 
-        $response[] = "Eliminado: {$deleteRequest['request']}";
+        $response[] = "Eliminado: {$deleteUserPermission['name']}";
 
         return response()->json([
             'status' => $statusCode,

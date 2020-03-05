@@ -39,6 +39,19 @@ Route::group(['prefix' => 'users'], function (){
     Route::post('/create', 'User\UserController@store')->name('users.create');
 });
 
+/**
+ * ExternalUsers
+ */
+
+Route::group(['prefix' => 'externalUsers'], function (){
+    Route::get('/', 'ExternalUser\ExternalUserController@index')->name('externalUsers.index');
+    Route::get('/id', 'ExternalUser\ExternalUserController@find')->name('externalUsers.find');
+    Route::post('/update', 'ExternalUser\ExternalUserController@update')->name('externalUsers.update');
+    Route::put('/put', 'ExternalUser\ExternalUserController@update')->name('externalUsers.put');
+    Route::delete('/delete', 'ExternalUser\ExternalUserController@destroy')->name('externalUsers.delete');
+    Route::post('/create', 'ExternalUser\ExternalUserController@store')->name('externalUsers.create');
+});
+
 
 /**
  * Categories
@@ -64,6 +77,19 @@ Route::group(['prefix' => 'usersTypes'], function (){
     Route::put('/put', 'UserType\UserTypeController@update')->name('users_types.put');
     Route::delete('/delete', 'UserType\UserTypeController@destroy')->name('users_types.delete');
     Route::post('/create', 'UserType\UserTypeController@store')->name('users_types.create');
+});
+
+/**
+ * ExternalUserTypes
+ */
+
+Route::group(['prefix' => 'externalUsersTypes'], function (){
+    Route::get('/', 'ExternalUserType\ExternalUserTypeController@index')->name('externalUsersTypes.index');
+    Route::get('/id', 'ExternalUserType\ExternalUserTypeController@find')->name('externalUsersTypes.find');
+    Route::post('/update', 'ExternalUserType\ExternalUserTypeController@update')->name('externalUsersTypes.update');
+    Route::put('/put', 'ExternalUserType\ExternalUserTypeController@update')->name('externalUsersTypes.put');
+    Route::delete('/delete', 'ExternalUserType\ExternalUserTypeController@destroy')->name('externalUsersTypes.delete');
+    Route::post('/create', 'ExternalUserType\ExternalUserTypeController@store')->name('externalUsersTypes.create');
 });
 
 
@@ -120,7 +146,7 @@ Route::group(['prefix' => 'externalClients'], function (){
 });
 
 /**
- * ExternalClients
+ * UserPermission
  */
 
 Route::group(['prefix' => 'userPermissions'], function (){
@@ -131,4 +157,18 @@ Route::group(['prefix' => 'userPermissions'], function (){
     Route::delete('/delete', 'UserPermission\UserPermissionController@destroy')->name('userPermissions.delete');
     Route::post('/create', 'UserPermission\UserPermissionController@store')->name('userPermissions.create');
 });
+
+/**
+ * ExternalUserPermission
+ */
+
+Route::group(['prefix' => 'externalUserPermissions'], function (){
+    Route::get('/', 'ExternalUserPermission\ExternalUserPermissionsController@index')->name('externalUserPermissions.index');
+    Route::get('/id', 'ExternalUserPermission\ExternalUserPermissionsController@find')->name('externalUserPermissions.find');
+    Route::post('/update', 'ExternalUserPermission\ExternalUserPermissionsController@update')->name('externalUserPermissions.update');
+    Route::put('/put', 'ExternalUserPermission\ExternalUserPermissionsController@update')->name('externalUserPermissions.put');
+    Route::delete('/delete', 'ExternalUserPermission\ExternalUserPermissionsController@destroy')->name('externalUserPermissions.delete');
+    Route::post('/create', 'ExternalUserPermission\ExternalUserPermissionsController@store')->name('externalUserPermissions.create');
+});
+
 

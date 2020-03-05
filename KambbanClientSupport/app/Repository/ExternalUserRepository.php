@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Interfaces\RepositoriesInterface;
-use App\Models\User;
+use App\Models\ExternalUser;
 use App\Traits\RepositoryTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
@@ -27,15 +27,14 @@ class ExternalUserRepository implements RepositoriesInterface{
         'external_users.remember_token'
     ];
 
-    public function __construct(User $user){
-        $this->model = $user;
+    public function __construct(ExternalUser $externalUser){
+        $this->model = $externalUser;
     }
 
     public function all($paginate)
     {
         $limit = $paginate['rowsPerPage']??0;
         $start = $paginate['page']??-1;
-        $search = $paginate['search']??null;
 
         $totaldata = $this->model->count();
 
@@ -65,7 +64,6 @@ class ExternalUserRepository implements RepositoriesInterface{
     {
         try {
             return $this->model->select($this->fields)
-
                 ->where('users.id', '=', $id)
                 ->with('externalUserType')
                 ->with('externalClient')

@@ -20,7 +20,9 @@ class UserTypeRepository implements RepositoriesInterface
         'users_types.user_type',
         'users_types.status',
         'users_types.permission_id',
-        'users_types.attrs'
+        'users_types.attrs',
+        'users_types.created_at',
+        'users_types.updated_at'
     ];
 
     public function __construct(UserType $userType)
@@ -32,13 +34,13 @@ class UserTypeRepository implements RepositoriesInterface
     {
         $limit = $paginate['rowsPerPage'] ?? 0;
         $start = $paginate['page'] ?? -1;
-        $search = $paginate['search'] ?? null;
 
         $totaldata = $this->model->count();
 
         $query = $this->model->select($this->fields)
-            ->orderBy('id', 'desc')
-            ->with('permissions');
+            ->with('permissions')
+            ->orderBy('id', 'desc');
+
 
         if ($limit && $start != -1) {
             $query = $query

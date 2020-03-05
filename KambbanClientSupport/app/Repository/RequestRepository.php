@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Models\Request;
-use App\Models\RequestType;
 use App\Interfaces\RepositoriesInterface;
 use App\Traits\RepositoryTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -18,13 +17,14 @@ class RequestRepository implements RepositoriesInterface
     private $model;
     private $fields = [
         'request.id',
-        'request.request',
+        'request.description',
         'request.user_id',
+        'request.external_user_id',
         'request.category_id',
         'request.request_type_id',
         'request.status',
         'request.created_at',
-        'updated_at'
+        'request.updated_at'
     ];
 
     public function __construct(Request $request)
@@ -40,6 +40,10 @@ class RequestRepository implements RepositoriesInterface
         $totaldata = $this->model->count();
 
         $query = $this->model->select($this->fields)
+            ->with('user')
+            ->with('externalUser')
+            ->with('category')
+            ->with('assignment')
             ->orderBy('id', 'desc');
 
         if ($limit && $start != -1) {
@@ -65,6 +69,10 @@ class RequestRepository implements RepositoriesInterface
         try {
             return $this->model->select($this->fields)
                 ->where('request.id', '=', $id)
+                ->with('user')
+                ->with('externalUser')
+                ->with('category')
+                ->with('assignment')
                 ->first();
         } catch (ModelNotFoundException $ex) {
             return [

@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Assignment extends Model
 {
     public function requests(){
-        return $this->hasMany(Request::class);
+        return $this->belongsTo(Request::class);
     }
 
     public function users(){
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function workflow(){

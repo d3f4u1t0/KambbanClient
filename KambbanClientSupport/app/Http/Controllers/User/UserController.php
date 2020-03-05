@@ -46,7 +46,7 @@ class UserController extends ApiController
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     *
      * @return JsonResponse
      */
     public function store()
@@ -60,8 +60,9 @@ class UserController extends ApiController
             'email' => 'required|email|unique:users',
             'username' => 'required|unique:users',
             'password' => 'required|min:6|confirmed',
-            'user_type_id' => 'required',
-            'company_id' => 'required'
+            'status' => 'required',
+            'external_user_type_id' => 'required',
+            'external_client_id' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -94,7 +95,7 @@ class UserController extends ApiController
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     *
      * @return JsonResponse
      */
     public function find()
@@ -112,8 +113,7 @@ class UserController extends ApiController
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param int $id
+     *
      * @return JsonResponse
      */
     public function update()
@@ -143,7 +143,6 @@ class UserController extends ApiController
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
      * @return JsonResponse
      */
     public function destroy()

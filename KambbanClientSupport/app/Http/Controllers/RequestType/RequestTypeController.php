@@ -28,11 +28,7 @@ class RequestTypeController extends ApiController
         $this->requestTypeRepository = $requestTypeRepository;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return JsonResponse
-     */
+
     public function index()
     {
         $request = $this->request->query();
@@ -45,12 +41,7 @@ class RequestTypeController extends ApiController
         );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
+
     public function store()
     {
         $result = [];
@@ -59,6 +50,8 @@ class RequestTypeController extends ApiController
 
         $validator = Validator::make($request, [
             'name' => 'required|unique:requests_types',
+            'description' => 'required',
+            'attrs' => 'nullable'
         ]);
 
         if ($validator->fails()) {
@@ -86,12 +79,7 @@ class RequestTypeController extends ApiController
         ], $statusCode);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param RequestType $requestType
-     * @return JsonResponse
-     */
+
     public function find()
     {
         $request = $this->request->query();
@@ -103,13 +91,6 @@ class RequestTypeController extends ApiController
             $this->httpRequestResponse->getResponseOk());
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param RequestType $requestType
-     * @return JsonResponse
-     */
     public function update()
     {
         $response = [];
@@ -133,12 +114,7 @@ class RequestTypeController extends ApiController
         ], $statusCode);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param RequestType $requestType
-     * @return JsonResponse
-     */
+
     public function destroy()
     {
         $request = $this->request->json()->all();

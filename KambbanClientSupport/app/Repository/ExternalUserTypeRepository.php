@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Models\UserType;
+use App\Models\ExternalUserType;
 use App\Interfaces\RepositoriesInterface;
 use App\Traits\RepositoryTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -17,28 +17,29 @@ class ExternalUserTypeRepository implements RepositoriesInterface
     private $model;
     private $fields = [
         'external_user_types.id',
-        'external_user_types.user_type',
+        'external_user_types.external_user_type',
         'external_user_types.status',
         'external_user_types.permission_id',
-        'external_user_types.attrs'
+        'external_user_types.attrs',
+        'external_user_types.created_at',
+        'external_user_types.updated_at'
     ];
 
-    public function __construct(UserType $userType)
+    public function __construct(ExternalUserType $externalUserType)
     {
-        $this->model = $userType;
+        $this->model = $externalUserType;
     }
 
     public function all($paginate)
     {
         $limit = $paginate['rowsPerPage'] ?? 0;
         $start = $paginate['page'] ?? -1;
-        $search = $paginate['search'] ?? null;
 
         $totaldata = $this->model->count();
 
         $query = $this->model->select($this->fields)
-            ->orderBy('id', 'desc')
-            ->with('permissionsExternalUser');
+            ->with('permissionsExternalUser')
+            ->orderBy('id', 'desc');
 
         if ($limit && $start != -1) {
             $query = $query

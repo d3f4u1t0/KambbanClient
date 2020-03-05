@@ -44,7 +44,7 @@ class UserTypeController extends ApiController
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     *
      * @return JsonResponse
      */
     public function store()
@@ -55,7 +55,10 @@ class UserTypeController extends ApiController
 
 
         $validator = Validator::make($request, [
-            'name' => 'required|unique:users_types',
+            'user_type'     => 'required|unique:users_types',
+            'status'        => 'required',
+            'attrs'         => 'nullable',
+            'permission_id' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -90,7 +93,7 @@ class UserTypeController extends ApiController
     /**
      * Display the specified resource.
      *
-     * @param UserType $userType
+     *
      * @return JsonResponse
      */
     public function find()
@@ -141,7 +144,7 @@ class UserTypeController extends ApiController
     /**
      * Remove the specified resource from storage.
      *
-     * @param UserType $userType
+     *
      * @return JsonResponse
      */
     public function destroy()

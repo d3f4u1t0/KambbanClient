@@ -16,8 +16,11 @@ class RequestTypeRepository implements RepositoriesInterface
 
     private $model;
     private $fields = [
-        'requests_types.id',
-        'requests_types.name',
+        'request_types.id',
+        'request_types.name',
+        'request_types.attrs',
+        'request_types.created_at',
+        'request_types.updated_at'
     ];
 
     public function __construct(RequestType $requestType)
@@ -58,7 +61,7 @@ class RequestTypeRepository implements RepositoriesInterface
     {
         try {
             return $this->model->select($this->fields)
-                ->where('requests_types.id', '=', $id)
+                ->where('request_types.id', '=', $id)
                 ->first();
         } catch (ModelNotFoundException $ex) {
             return [
