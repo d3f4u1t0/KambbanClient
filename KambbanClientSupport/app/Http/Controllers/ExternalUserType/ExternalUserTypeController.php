@@ -54,7 +54,7 @@ class ExternalUserTypeController extends ApiController
 
 
         $validator = Validator::make($request, [
-            'user_type'     => 'required|unique:users_types',
+            'external_user_type'     => 'required|unique:external_user_types',
             'status'        => 'required',
             'attrs'         => 'nullable',
             'permission_id' => 'required'
@@ -92,7 +92,7 @@ class ExternalUserTypeController extends ApiController
      */
     public function find()
     {
-        $request = $this->request->query();
+        $request = $this->request->json()->all();
         $data = $this->externalUserTypeRepository->find($request['id']);
 
         return response()->json([

@@ -61,7 +61,7 @@ class UserController extends ApiController
             'username' => 'required|unique:users',
             'password' => 'required|min:6|confirmed',
             'status' => 'required',
-            'external_user_type_id' => 'required',
+            'user_type_id' => 'required',
             'external_client_id' => 'required'
         ]);
 
@@ -100,7 +100,7 @@ class UserController extends ApiController
      */
     public function find()
     {
-        $request = $this->request->query();
+        $request = $this->request->json()->all();
         $data = $this->userRepository->find($request['id']);
 
         return response()->json([

@@ -19,6 +19,7 @@ class ExternalClientRepository implements RepositoriesInterface
         'external_clients.name',
         'external_clients.nit',
         'external_clients.attrs',
+        'external_clients.internal_client_id',
         'external_clients.created_at',
         'external_clients.updated_at'
     ];
@@ -62,8 +63,7 @@ class ExternalClientRepository implements RepositoriesInterface
         try {
             $result = $this->model->findOrFail($id);
             $result->update($data);
-            return $this->find($id)
-                ->with('internalClient');
+            return $this->find($id);
 
         } catch (ModelNotFoundException $ex) {
             return [
@@ -89,9 +89,7 @@ class ExternalClientRepository implements RepositoriesInterface
     public function create(array $data)
     {
         $result = $this->model->create($data);
-        return $this->find($result->id)
-            ->with('internalClient');
-
+        return $this->find($result->id);
     }
 
     public function delete($id)

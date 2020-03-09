@@ -4,7 +4,6 @@ namespace App\Http\Controllers\UserPermission;
 
 use App\Helpers\HttpRequestResponse;
 use App\Http\Controllers\ApiController;
-use App\Http\Controllers\Controller;
 use App\Repository\UserPermissionRepository;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
@@ -57,9 +56,8 @@ class UserPermissionController extends ApiController
         $result = [];
         $request = $this->request->json()->all();
         $statusCode = $this->httpRequestResponse->getResponseOk();
-
         $validator = Validator::make($request, $rules = [
-            'permission' => 'required|unique:permissions',
+            'permission' => 'required|unique:user_permissions',
             'description' => 'required',
             'attrs' => 'nullable'
         ]);

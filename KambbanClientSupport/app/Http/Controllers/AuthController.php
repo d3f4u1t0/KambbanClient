@@ -16,11 +16,11 @@ class AuthController extends Controller
             'remember_me' => 'boolean',
         ]);
         $credentials = request(['email', 'password']);
+
         if (!Auth::attempt($credentials)) {
             return response()->json([
                 'message' => 'Unauthorized'], 401);
         }
-
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;

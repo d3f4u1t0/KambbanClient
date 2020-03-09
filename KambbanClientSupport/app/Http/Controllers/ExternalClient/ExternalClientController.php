@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ExternalClient;
 
 use App\Helpers\HttpRequestResponse;
 use App\Http\Controllers\ApiController;
+use App\Repository\ExternalClientRepository;
 use App\Repository\InternalClientRepository;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class ExternalClientController extends ApiController
     public function __construct(
         Request $request,
         HttpRequestResponse $httpRequestResponse,
-        InternalClientRepository $externalClientRepository
+        ExternalClientRepository $externalClientRepository
     )
     {
         $this->request = $request;

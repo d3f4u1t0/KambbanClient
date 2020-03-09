@@ -13,23 +13,23 @@ class ExternalUserPermissionsController extends ApiController
 {
     protected $httpRequestResponse;
     protected $request;
-    protected $userPermissionRepository;
+    protected $externalUserPermissionRepository;
     protected $validator;
 
     public function __construct(
         HttpRequestResponse $httpRequestResponse,
         Request $request,
-        ExternalUserPermissionsRepository $userPermissionRepository
+        ExternalUserPermissionsRepository $externalUserPermissionRepository
     )
     {
         $this->request = $request;
         $this->httpRequestResponse = $httpRequestResponse;
-        $this->userPermissionRepository = $userPermissionRepository;
+        $this->externalUserPermissionRepository = $externalUserPermissionRepository;
     }
 
     public function index(){
         $request = $this->request->query();
-        $data = $this->userPermissionRepository->all($request);
+        $data = $this->externalUserPermissionRepository->all($request);
 
         return response()->json([
             'message' => $this->httpRequestResponse->getResponseOk(),
@@ -41,7 +41,7 @@ class ExternalUserPermissionsController extends ApiController
     public function find(){
         try {
             $request = $this->request->json()->all();
-            $data = $this->userPermissionRepository->find($request['id']);
+            $data = $this->externalUserPermissionRepository->find($request['id']);
             return response()->json([
                 'message' => $this->httpRequestResponse->getResponseOk(),
                 "data" => $data,
@@ -67,7 +67,7 @@ class ExternalUserPermissionsController extends ApiController
             return response()->json(['message' => $validator->errors()], $this->httpRequestResponse->getResponseBadRequest());
         }
 
-        $create = $this->userPermissionRepository->create($request);
+        $create = $this->externalUserPermissionRepository->create($request);
 
         if (isset($create['error'])) {
             $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
@@ -93,15 +93,15 @@ class ExternalUserPermissionsController extends ApiController
         $response = [];
         $request = $this->request->json()->all();
         $statusCode = $this->httpRequestResponse->getResponseOk();
-        $update = $this->userPermissionRepository->update($request, $request['id']);
+        $update = $this->externalUserPermissionRepository->update($request, $request['id']);
 
         if (isset($update->userPermission->id)) {
-            $updateUserPermission = $this->userPermissionRepository->update($request['values'], $update->userPermission->id);
+            $updateUserPermission = $this->externalUserPermissionRepository->update($request['values'], $update->userPermission->id);
 
             if (isset($updateUserPermission['error'])) {
                 $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
             }
-            $response[] = $this->userPermissionRepository->find($request['id']);
+            $response[] = $this->externalUserPermissionRepository->find($request['id']);
         } else {
             $response[] = $update;
         }
@@ -118,15 +118,15 @@ class ExternalUserPermissionsController extends ApiController
         $response = [];
         $statusCode = $this->httpRequestResponse->getResponseOk();
 
-        $dataDelete = $this->userPermissionRepository->find($request['id']);
+        $dataDelete = $this->externalUserPermissionRepository->find($request['id']);
 
-        $deleteUserPermission = $this->userPermissionRepository->delete($dataDelete);
+        $deleteExternalUserPermission = $this->externalUserPermissionRepository->delete($dataDelete);
 
-        if (isset($deleteUserPermission['error'])) {
+        if (isset($deleteExternalUserPermission['error'])) {
             $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
         }
 
-        $response[] = "Eliminado: {$deleteUserPermission['name']}";
+        $response[] = "Eliminado: {$deleteExternalUserPermission['permission']}";
 
         return response()->json([
             'status' => $statusCode,

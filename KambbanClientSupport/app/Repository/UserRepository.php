@@ -20,8 +20,9 @@ class UserRepository implements RepositoriesInterface{
       'users.username',
       'users.email',
       'users.password',
+      'users.status',
       'users.user_type_id',
-      'users.company_id',
+      'users.external_client_id',
       'users.created_at',
       'users.updated_at',
       'users.remember_token'
@@ -41,7 +42,7 @@ class UserRepository implements RepositoriesInterface{
 
         $query = $this->model->select($this->fields)
                 ->with('userType')
-                ->with('company')
+                ->with('externalClient')
             ->orderBy('id', 'desc');
 
         if($limit && $start!=-1){
@@ -68,7 +69,7 @@ class UserRepository implements RepositoriesInterface{
 
                 ->where('users.id', '=', $id)
                     ->with('userType')
-                    ->with('company')
+                    ->with('externalClient')
                 ->first();
         } catch (ModelNotFoundException $ex) {
             return [

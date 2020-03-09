@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('status');
             $table->bigInteger('user_type_id')->unsigned();
             $table->bigInteger('external_client_id')->unsigned();
             $table->rememberToken();

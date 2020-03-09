@@ -20,6 +20,7 @@ class ExternalUserRepository implements RepositoriesInterface{
         'external_users.username',
         'external_users.email',
         'external_users.password',
+        'external_users.status',
         'external_users.external_user_type_id',
         'external_users.external_client_id',
         'external_users.created_at',
@@ -64,7 +65,7 @@ class ExternalUserRepository implements RepositoriesInterface{
     {
         try {
             return $this->model->select($this->fields)
-                ->where('users.id', '=', $id)
+                ->where('external_user.id', '=', $id)
                 ->with('externalUserType')
                 ->with('externalClient')
                 ->first();
@@ -107,6 +108,3 @@ class ExternalUserRepository implements RepositoriesInterface{
         }
     }
 }
-
-
-
