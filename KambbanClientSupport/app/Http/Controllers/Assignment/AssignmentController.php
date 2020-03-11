@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Assignment;
 
 use App\Helpers\HttpRequestResponse;
 use App\Http\Controllers\Controller;
-use App\Repository\CategoryRepository;
+use App\Repository\AssignmentRepository;
 use App\Repository\WorkflowRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,18 +14,18 @@ class AssignmentController extends Controller
 {
     protected $httpRequestResponse;
     protected $request;
-    protected $workflowRepository;
+    protected $assignmentRepository;
     protected $validator;
 
     public function __construct(
         Request $request,
         HttpRequestResponse $httpRequestResponse,
-        WorkflowRepository $workflowRepository
+        AssignmentRepository $assignmentRepository
     )
     {
         $this->request = $request;
         $this->httpRequestResponse = $httpRequestResponse;
-        $this->workflowRepository = $workflowRepository;
+        $this->assignmentRepository = $assignmentRepository;
     }
 
     /**
@@ -36,7 +36,7 @@ class AssignmentController extends Controller
     public function index()
     {
         $request = $this->request->query();
-        $data = $this->workflowRepository->all($request);
+        $data = $this->assignmentRepository->all($request);
 
         return response()->json([
             'message' => $this->httpRequestResponse->getResponseOk(),
@@ -62,7 +62,7 @@ class AssignmentController extends Controller
             return response()->json(['message' => $validator->errors()], $this->httpRequestResponse->getResponseBadRequest());
         }
 
-        $create = $this->workflowRepository->create($request);
+        $create = $this->assignmentRepository->create($request);
 
         if (isset($create['error'])) {
             $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
@@ -91,7 +91,7 @@ class AssignmentController extends Controller
     public function find()
     {
         $request = $this->request->query();
-        $data = $this->workflowRepository->find($request['id']);
+        $data = $this->assignmentRepository->find($request['id']);
 
         return response()->json([
             'message' => $this->httpRequestResponse->getResponseOk(),
@@ -111,14 +111,14 @@ class AssignmentController extends Controller
         $response = [];
         $request = $this->request->json()->all();
         $statusCode = $this->httpRequestResponse->getResponseOk();
-        $update = $this->workflowRepository->update($request, $request['id']);
+        $update = $this->assignmentRepository->update($request, $request['id']);
 
-        if (isset($update->workflow->id)) {
-            $updateCategory = $this->workflowRepository->update($request['values'], $update->workflow->id);
-            if (isset($updateCategory['error'])) {
+        if (isset($update->assignment->id)) {
+            $updateAssignment = $this->assignmentRepository->update($request['values'], $update->assignment->id);
+            if (isset($updateAssignment['error'])) {
                 $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
             }
-            $response[] = $this->workflowRepository->find($request['id']);
+            $response[] = $this->assignmentRepository->find($request['id']);
         } else {
             $response[] = $update;
         }
@@ -140,14 +140,14 @@ class AssignmentController extends Controller
         $request = $this->request->json()->all();
         $response = [];
         $statusCode = $this->httpRequestResponse->getResponseOk();
-        $dataDelete = $this->workflowRepository->find($request['id']);
-        $deleteWorkflow = $this->workflowRepository->delete($dataDelete);
+        $dataDelete = $this->assignmentRepository->find($request['id']);
+        $deleteAssignment = $this->assignmentRepository->delete($dataDelete);
 
-        if (isset($deleteWorkflow['error'])) {
+        if (isset($deleteAssignment['error'])) {
             $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
         }
 
-        $response[] = "Eliminado: {$deleteWorkflow['id']}";
+        $response[] = "Eliminado: {$deleteAssignment['id']}";
 
         return response()->json([
             'status' => $statusCode,

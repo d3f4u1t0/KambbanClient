@@ -4,13 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RequestType extends Model
+class Category extends Model
 {
-    protected $table = 'request_types';
     protected $fillable = [
-      'name',
-      'description',
-      'attrs'
+        'name',
+        'description',
+        'attrs'
     ];
 
     public function request(){

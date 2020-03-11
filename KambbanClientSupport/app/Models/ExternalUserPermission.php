@@ -16,4 +16,9 @@ class ExternalUserPermission extends Model
     public function externalUserTypes(){
         return $this->hasMany(ExternalUserType::class);
     }
+
+    /**
+     * @inheritDoc
+     */
+
 }
