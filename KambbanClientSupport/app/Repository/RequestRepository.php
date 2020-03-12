@@ -40,10 +40,9 @@ class RequestRepository implements RepositoriesInterface
         $totaldata = $this->model->count();
 
         $query = $this->model->select($this->fields)
-            ->with('user')
             ->with('externalUser')
             ->with('category')
-            ->with('assignment')
+            ->with('requestType')
             ->orderBy('id', 'desc');
 
         if ($limit && $start != -1) {
@@ -72,7 +71,6 @@ class RequestRepository implements RepositoriesInterface
                 ->with('user')
                 ->with('externalUser')
                 ->with('category')
-                ->with('assignment')
                 ->first();
         } catch (ModelNotFoundException $ex) {
             return [

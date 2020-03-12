@@ -49,6 +49,7 @@ class RequestController extends ApiController
         $request = $this->request->json()->all();
         $statusCode = $this->httpRequestResponse->getResponseOk();
         $request['user_id'] = auth('api')->user()->id;
+
         $validator = Validator::make($request, $rules = [
             'request' => 'required',
             'request_type_id' => 'required',
@@ -57,12 +58,13 @@ class RequestController extends ApiController
             'user_id' => 'nullable',
             'external_user_id' => 'required'
         ]);
-
         if ($validator->fails()) {
             return response()->json(['message' => $validator->errors()], $this->httpRequestResponse->getResponseBadRequest());
         }
 
         $create = $this->requestRepository->create($request);
+        /* dump($create);
+         exit();*/
 
         if(isset($create['error'])){
             $statusCode = $this->httpRequestResponse->getResponseInternalServerError();
@@ -80,7 +82,6 @@ class RequestController extends ApiController
             'status' => $statusCode,
             'data' => $result
         ], $statusCode);
-
     }
 
     public function find()
