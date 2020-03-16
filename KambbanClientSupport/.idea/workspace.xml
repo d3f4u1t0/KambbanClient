@@ -155,6 +155,9 @@
       <change afterPath="$PROJECT_DIR$/tests/TestCase.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/tests/Unit/ExampleTest.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/webpack.mix.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -278,6 +281,8 @@
       <path value="$PROJECT_DIR$/vendor/guzzlehttp/guzzle" />
       <path value="$PROJECT_DIR$/vendor/guzzlehttp/psr7" />
       <path value="$PROJECT_DIR$/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/vendor/asm89/stack-cors" />
+      <path value="$PROJECT_DIR$/vendor/fruitcake/laravel-cors" />
     </include_path>
   </component>
   <component name="ProjectId" id="1XzT8P6vhqpMq4oh444NT7tzMyc" />
@@ -318,6 +323,7 @@
       <workItem from="1583947181068" duration="8521000" />
       <workItem from="1584033915791" duration="2483000" />
       <workItem from="1584120078953" duration="2896000" />
+      <workItem from="1584383716385" duration="5133000" />
     </task>
     <servers />
   </component>
@@ -354,10 +360,10 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="96" y="27" width="1401" height="888" key="dock-window-2/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1582221728738" />
-    <state x="2026" y="18" width="1632" height="909" key="find.popup" timestamp="1582052288339">
+    <state x="2058" y="105" width="1632" height="909" key="find.popup" timestamp="1584389471089">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2026" y="18" width="1632" height="909" key="find.popup/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1582052288339" />
+    <state x="2058" y="105" width="1632" height="909" key="find.popup/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1584389471089" />
     <state x="2544" y="245" key="run.anything.popup" timestamp="1582051938252">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>

@@ -30,7 +30,7 @@ Route::group(['prefix' => 'auth'], function () {
  * Users
  */
 
-Route::group(['prefix' => 'users'], function (){
+Route::group(['prefix' => 'users', 'middleware' => 'auth:api'], function (){
     Route::get('/', 'User\UserController@index')->name('users.index');
     Route::get('/id', 'User\UserController@find')->name('users.find');
     Route::post('/update', 'User\UserController@update')->name('users.update');
