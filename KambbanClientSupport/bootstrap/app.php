@@ -41,14 +41,14 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
-$app->register(Fruitcake\Cors\CorsServiceProvider::class);
+/*$app->register(Fruitcake\Cors\CorsServiceProvider::class);*/
 
-$app->configure('cors');
+/*$app->configure('cors');
 
 $app->middleware([
 
     Fruitcake\Cors\HandleCors::class,
-]);
+]);*/
 /*
 |--------------------------------------------------------------------------
 | Return The Application

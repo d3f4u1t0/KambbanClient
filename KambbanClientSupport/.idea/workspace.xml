@@ -155,9 +155,6 @@
       <change afterPath="$PROJECT_DIR$/tests/TestCase.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/tests/Unit/ExampleTest.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/webpack.mix.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -299,7 +296,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../external-back" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="SvnConfiguration">
@@ -323,7 +320,7 @@
       <workItem from="1583947181068" duration="8521000" />
       <workItem from="1584033915791" duration="2483000" />
       <workItem from="1584120078953" duration="2896000" />
-      <workItem from="1584383716385" duration="5133000" />
+      <workItem from="1584383716385" duration="6458000" />
     </task>
     <servers />
   </component>
@@ -342,12 +339,12 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2310" y="83" width="1129" height="921" key="CommitChangelistDialog2/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1582146757091" />
-    <state x="2663" y="298" width="357" height="337" key="FileChooserDialogImpl" timestamp="1584034932256">
+    <state x="2663" y="298" width="357" height="337" key="FileChooserDialogImpl" timestamp="1584394171867">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="529" y="231" width="357" height="337" key="FileChooserDialogImpl/0.27.1366.741@0.27.1366.741" timestamp="1583860799490" />
     <state x="744" y="317" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1583947197509" />
-    <state x="2663" y="298" width="424" height="491" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1584034932256" />
+    <state x="2663" y="298" width="424" height="491" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1584394171867" />
     <state x="2544" y="192" width="662" height="702" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1582050987661">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
