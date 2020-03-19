@@ -3,9 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use szana8\Laraflow\Traits\Flowable;
 
 class Assignment extends Model
 {
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+    }
+
+    use Flowable;
+
     public function requests(){
         return $this->belongsTo(Request::class);
     }
@@ -18,7 +28,7 @@ class Assignment extends Model
        return $this->belongsTo(Workflow::class);
     }
 
-    public function setLaraflowState(){
+    public function getLaraflowState(){
 
     }
 }

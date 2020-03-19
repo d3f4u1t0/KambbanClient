@@ -92,15 +92,20 @@
       <change afterPath="$PROJECT_DIR$/config/auth.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/config/broadcasting.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/config/cache.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/cors.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/config/database.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/config/filesystems.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/flare.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/config/hashing.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/ignition.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/config/laraflow.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/config/logging.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/config/mail.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/config/queue.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/config/services.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/config/session.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/tinker.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/trustedproxy.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/config/view.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/database/.gitignore" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/database/factories/UserFactory.php" afterDir="false" />
@@ -320,7 +325,8 @@
       <workItem from="1583947181068" duration="8521000" />
       <workItem from="1584033915791" duration="2483000" />
       <workItem from="1584120078953" duration="2896000" />
-      <workItem from="1584383716385" duration="6458000" />
+      <workItem from="1584383716385" duration="7062000" />
+      <workItem from="1584638602526" duration="4139000" />
     </task>
     <servers />
   </component>
@@ -335,10 +341,10 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2613" y="288" width="524" height="510" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1582052239712" />
-    <state x="2310" y="83" width="1129" height="921" key="CommitChangelistDialog2" timestamp="1582146757091">
+    <state x="2310" y="83" width="1129" height="921" key="CommitChangelistDialog2" timestamp="1584638746385">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2310" y="83" width="1129" height="921" key="CommitChangelistDialog2/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1582146757091" />
+    <state x="2310" y="83" width="1129" height="921" key="CommitChangelistDialog2/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1584638746385" />
     <state x="2663" y="298" width="357" height="337" key="FileChooserDialogImpl" timestamp="1584394171867">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
