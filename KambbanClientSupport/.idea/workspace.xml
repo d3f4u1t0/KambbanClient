@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a880a930-6120-483c-b1e4-6bf7e6fa4b74" name="Default Changelist" comment="">
+<<<<<<< Updated upstream
       <change afterPath="$PROJECT_DIR$/.editorconfig" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.gitattributes" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
@@ -160,6 +161,10 @@
       <change afterPath="$PROJECT_DIR$/tests/TestCase.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/tests/Unit/ExampleTest.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/webpack.mix.js" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/../external-back/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../external-back/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../external-back/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/../external-back/routes/api.php" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,7 +178,7 @@
     </execution>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -301,7 +306,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../external-back" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="SvnConfiguration">
@@ -325,8 +330,13 @@
       <workItem from="1583947181068" duration="8521000" />
       <workItem from="1584033915791" duration="2483000" />
       <workItem from="1584120078953" duration="2896000" />
+<<<<<<< Updated upstream
       <workItem from="1584383716385" duration="7062000" />
       <workItem from="1584638602526" duration="4139000" />
+=======
+      <workItem from="1584383716385" duration="6458000" />
+      <workItem from="1584402797943" duration="835000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>
